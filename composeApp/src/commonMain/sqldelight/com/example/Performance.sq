@@ -1,0 +1,55 @@
+import kotlin.Boolean;
+
+CREATE TABLE IF NOT EXISTS performance_entity (
+id TEXT PRIMARY KEY NOT NULL,
+quiz_day_id TEXT NOT NULL,
+team_name TEXT NOT NULL,
+started INTEGER AS Boolean DEFAULT 0 NOT NULL,
+points REAL NOT NULL,
+rank INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS my_performance_list (
+id TEXT PRIMARY KEY NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS performance_squad (
+performance_id TEXT NOT NULL,
+player_id TEXT NOT NULL,
+role TEXT NOT NULL ,
+PRIMARY KEY (performance_id,player_id)
+);
+
+insertPerformance:
+INSERT OR REPLACE INTO performance_entity (id,quiz_day_id,team_name,started,points,rank)
+VALUES ?;
+
+insertMyPerformance:
+INSERT OR REPLACE INTO my_performance_list (id)
+VALUES ?;
+
+getPerformanceById:
+SELECT * FROM performance_entity
+WHERE performance_entity.id = ?;
+
+getUpcomingPerformanceList:
+SELECT *
+FROM my_performance_list
+JOIN performance_entity ON my_performance_list.id = performance_entity.id
+JOIN quiz_day ON performance_entity.quiz_day_id = quiz_day.quiz_day_id
+JOIN quiz_week ON quiz_day.quiz_week_id = quiz_week.id;
+
+findPerformanceByQuizWeek:
+SELECT performance_entity.*
+FROM quiz_day
+JOIN performance_entity ON quiz_day.quiz_day_id = performance_entity.quiz_day_id
+JOIN my_performance_list ON my_performance_list.id = performance_entity.id
+WHERE quiz_day.quiz_week_id = ?;
+
+deleteMyPerformance:
+DELETE FROM my_performance_list WHERE id = ?;
+
+deletePerformanceById:
+DELETE FROM performance_entity WHERE id = ?;
+
+

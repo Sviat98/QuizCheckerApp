@@ -1,0 +1,3 @@
+package com.bashkevich.quizchecker
+
+actual class PlatformConfiguration

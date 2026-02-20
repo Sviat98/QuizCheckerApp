@@ -1,0 +1,73 @@
+import kotlin.Boolean;
+import kotlinx.datetime.LocalDateTime;
+import com.bashkevich.quizchecker.model.Status;
+
+CREATE TABLE IF NOT EXISTS quiz_week (
+  id TEXT PRIMARY KEY NOT NULL,
+  title TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS quiz_day (
+  quiz_week_id TEXT NOT NULL,
+  quiz_day_id TEXT NOT NULL,
+  season_number INTEGER NOT NULL,
+  date_time INTEGER AS LocalDateTime NOT NULL,
+  status TEXT AS Status NOT NULL,
+  registration_open INTEGER AS Boolean DEFAULT 0 NOT NULL,
+  city TEXT NOT NULL,
+  registration_date_time INTEGER AS LocalDateTime NOT NULL,
+  PRIMARY KEY (quiz_week_id,quiz_day_id)
+);
+
+CREATE VIEW IF NOT EXISTS registered_event AS
+SELECT quiz_day.quiz_day_id,quiz_day.quiz_week_id
+FROM my_performance_list
+LEFT JOIN performance_entity ON my_performance_list.id = performance_entity.id
+LEFT JOIN quiz_day ON performance_entity.quiz_day_id = quiz_day.quiz_day_id;
+
+insertQuizWeek:
+INSERT OR REPLACE INTO quiz_week (id,title)
+VALUES ?;
+
+insertQuizDay:
+INSERT OR REPLACE INTO quiz_day (quiz_week_id,quiz_day_id,season_number,date_time,status,registration_open,city,registration_date_time)
+VALUES ?;
+
+
+deleteQuizWeek:
+DELETE FROM quiz_week WHERE id = ?;
+
+deleteQuizDay:
+DELETE FROM quiz_day  WHERE quiz_day_id = ?;
+
+getQuizList:
+SELECT * FROM quiz_day
+JOIN quiz_week ON quiz_week.id = quiz_day.quiz_week_id
+ORDER BY quiz_day.date_time;
+
+getQuizEventById:
+SELECT * FROM quiz_day
+JOIN quiz_week ON quiz_week.id = quiz_day.quiz_week_id
+WHERE quiz_day.quiz_day_id = ?;
+
+getQuizSchedule:
+SELECT
+quiz_day.*,
+quiz_week.*,
+(SELECT COUNT(*) FROM registered_event re WHERE re.quiz_day_id= quiz_day.quiz_day_id) AS reg_flag
+FROM quiz_day
+JOIN quiz_week ON quiz_week.id = quiz_day.quiz_week_id
+WHERE NOT EXISTS ( SELECT 1 FROM registered_event re WHERE re.quiz_day_id!=quiz_day.quiz_day_id AND re.quiz_week_id=quiz_day.quiz_week_id )
+AND quiz_day.status IN ('NOT_STARTED','IN_PROGRESS')
+ORDER BY quiz_day.date_time;
+
+getUpcomingQuizList:
+SELECT * FROM quiz_day
+JOIN quiz_week ON quiz_week.id = quiz_day.quiz_week_id
+WHERE quiz_day.status IN ('NOT_STARTED')
+ORDER BY quiz_day.date_time;
+
+
+
+
+
