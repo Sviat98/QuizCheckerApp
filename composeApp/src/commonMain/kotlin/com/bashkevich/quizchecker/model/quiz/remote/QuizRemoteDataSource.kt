@@ -73,7 +73,7 @@ class QuizRemoteDataSource(
                 contentType(ContentType.Application.Json)
                 setBody(quizEventDto)
                 url {
-                    encodedPath = "/quizEvent"
+                    encodedPath = "/quizEvents"
                 }
             }.body<QuizEventDto>()
             quizDto

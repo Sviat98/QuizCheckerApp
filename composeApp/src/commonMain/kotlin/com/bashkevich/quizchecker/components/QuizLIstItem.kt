@@ -37,20 +37,20 @@ fun QuizWeekItem(
         ) {
             Text(
                 text = quiz.title,
-                style = MaterialTheme.typography.displaySmall,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = quiz.quizDay.dateTime.convertToLocalTimeFromUTC()
                 ,
-                style = MaterialTheme.typography.displaySmall,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
                 text = "Status: ${quiz.quizDay.status}"
                 //.convertToLocalTimeFromUTC()
                 ,
-                style = MaterialTheme.typography.displaySmall,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
@@ -59,7 +59,7 @@ fun QuizWeekItem(
                 }" else "Registration starts at ${
                     quiz.quizDay.registrationTimeBegin.convertToLocalTimeFromUTC()
                 }",
-                style = MaterialTheme.typography.displaySmall,
+                style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
