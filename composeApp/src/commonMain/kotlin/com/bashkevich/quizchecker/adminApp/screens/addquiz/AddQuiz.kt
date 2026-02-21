@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.DatePicker
-import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,7 +12,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
@@ -26,12 +23,11 @@ import androidx.compose.ui.window.rememberDialogState
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bashkevich.quizchecker.adminApp.LocalNavHostController
 import com.bashkevich.quizchecker.components.icons.IconGroup
-import com.bashkevich.quizchecker.components.icons.default_icons.Add
 import com.bashkevich.quizchecker.components.icons.default_icons.ArrowDropDown
+import com.bashkevich.quizchecker.components.icons.default_icons.CalendarMonth
+import com.bashkevich.quizchecker.components.icons.default_icons.Schedule
 import com.bashkevich.quizchecker.core.formatDate
 import com.bashkevich.quizchecker.core.formatTime
-import kotlinx.datetime.*
-import kotlin.time.Clock
 
 
 @Composable
@@ -92,7 +88,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.Add, contentDescription = null)
+                    Icon(IconGroup.Default.CalendarMonth, contentDescription = "Select quiz date")
                 }
             })
 
@@ -109,7 +105,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.Add, contentDescription = null)
+                    Icon(IconGroup.Default.Schedule, contentDescription = "Select quiz time")
                 }
             })
 
@@ -126,7 +122,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.Add, contentDescription = null)
+                    Icon(IconGroup.Default.CalendarMonth, contentDescription = "Select registration date")
                 }
             })
 
@@ -144,7 +140,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.Add, contentDescription = null)
+                    Icon(IconGroup.Default.Schedule, contentDescription = "Select registration time")
                 }
             })
 
@@ -204,81 +200,43 @@ fun AddQuizContent(
         }
         when (addQuizScreenState.addQuizDialogState) {
             is AddQuizDialogState.DateEventDialogState -> {
-                EventDatePickerDialog(
-                    onCloseRequest = onInnerDialogCloseRequest
+                SimpleDatePickerDialog(
+                    onDateSelected = { selectedDate ->
+                        onEvent(AddQuizScreenUiEvent.OnDateEventChange(selectedDate))
+                    },
+                    onDismissRequest = onInnerDialogCloseRequest,
+                    initialSelectedDate = addQuizScreenState.eventDate
                 )
-
-                val eventDatePickerDialogState = rememberDatePickerState(
-                    initialSelectedDateMillis = addQuizScreenState.eventDate?.toEpochDays() ?: Clock.System.now().toEpochMilliseconds()
-//                        .toLocalDateTime(TimeZone.currentSystemDefault()).date,
-                )
-
-                eventDatePickerDialogState.selectedDateMillis
-
-//                DatePickerDialog(
-//                    onDismissRequest = { onInnerDialogCloseRequest() },
-//                    confirmButton = { Text("Ok") }
-//                    initialDate = addQuizScreenState.eventDate ?: Clock.System.now()
-//                        .toLocalDateTime(TimeZone.currentSystemDefault()).date,
-//                    onDateChange = { selectedDate ->
-//                        onEvent(
-//                            AddQuizScreenUiEvent.OnDateEventChange(selectedDate)
-//                        )
-//                        onInnerDialogCloseRequest()
-//                    }
-//                ){
-//                    DatePicker(
-//
-//                    )
-//                }
             }
 
-//            is AddQuizDialogState.TimeEventDialogState -> {
-//                EventTimePickerDialog(
-//                    onCloseRequest = { onInnerDialogCloseRequest() },
-//                    initialTime = addQuizScreenState.eventTime ?: Clock.System.now()
-//                        .toLocalDateTime(TimeZone.currentSystemDefault()).time,
-//                    onTimeChange = { selectedTime ->
-//                        onEvent(
-//                            AddQuizScreenUiEvent.OnTimeEventChange(
-//                                selectedTime
-//                            )
-//                        )
-//                        onInnerDialogCloseRequest()
-//                    }
-//                )
-//
-//            }
-//
-//            is AddQuizDialogState.DateRegDialogState -> {
-//                RegistrationDatePickerDialog(
-//                    onCloseRequest = { onInnerDialogCloseRequest() },
-//                    initialDate = addQuizScreenState.registrationDate ?: Clock.System.now()
-//                        .toLocalDateTime(TimeZone.currentSystemDefault()).date,
-//                    onDateChange = { selectedDate ->
-//                        onEvent(
-//                            AddQuizScreenUiEvent.OnDateRegChange(selectedDate)
-//                        )
-//                        onInnerDialogCloseRequest()
-//                    }
-//                )
-//            }
-//
-//            is AddQuizDialogState.TimeRegDialogState -> {
-//                RegistrationTimePickerDialog(
-//                    onCloseRequest = { onInnerDialogCloseRequest() },
-//                    initialTime = addQuizScreenState.registrationTime ?: Clock.System.now()
-//                        .toLocalDateTime(TimeZone.currentSystemDefault()).time,
-//                    onTimeChange = { selectedTime ->
-//                        onEvent(
-//                            AddQuizScreenUiEvent.OnTimeRegChange(
-//                                selectedTime
-//                            )
-//                        )
-//                        onInnerDialogCloseRequest()
-//                    }
-//                )
-//            }
+            is AddQuizDialogState.TimeEventDialogState -> {
+                SimpleTimePickerDialog(
+                    onTimeSelected = { selectedTime ->
+                        onEvent(AddQuizScreenUiEvent.OnTimeEventChange(selectedTime))
+                    },
+                    onDismissRequest = onInnerDialogCloseRequest,
+                    initialSelectedTime = addQuizScreenState.eventTime
+                )
+            }
+
+            is AddQuizDialogState.DateRegDialogState -> {
+                SimpleDatePickerDialog(
+                    onDateSelected = { selectedDate ->
+                        onEvent(AddQuizScreenUiEvent.OnDateRegChange(selectedDate))
+                    },
+                    onDismissRequest = onInnerDialogCloseRequest,
+                    initialSelectedDate = addQuizScreenState.registrationDate
+                )
+            }
+            is AddQuizDialogState.TimeRegDialogState -> {
+                SimpleTimePickerDialog(
+                    onTimeSelected = { selectedTime ->
+                        onEvent(AddQuizScreenUiEvent.OnTimeRegChange(selectedTime))
+                    },
+                    onDismissRequest = onInnerDialogCloseRequest,
+                    initialSelectedTime = addQuizScreenState.registrationTime
+                )
+            }
 
             else -> {}
         }
