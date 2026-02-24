@@ -9,8 +9,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.bashkevich.quizchecker.adminApp.screens.addquiz.AddQuizScreen
 import com.bashkevich.quizchecker.adminApp.screens.addquiz.AddQuizViewModel
+import com.bashkevich.quizchecker.adminApp.screens.quizdetails.QuizDetailsScreen
+import com.bashkevich.quizchecker.adminApp.screens.quizdetails.QuizDetailsViewModel
 import com.bashkevich.quizchecker.adminApp.screens.quizlist.QuizListScreen
 import com.bashkevich.quizchecker.adminApp.screens.quizlist.QuizListViewModel
 import com.bashkevich.quizchecker.di.coreModule
@@ -58,6 +61,14 @@ fun AdminApp() {
                         AddQuizScreen(
                             modifier = Modifier.fillMaxSize(),
                             viewModel = addQuizViewModel
+                        )
+                    }
+                    composable<QuizDetailsRoute> {
+                        val quizDetailsViewModel = koinViewModel<QuizDetailsViewModel>()
+
+                        QuizDetailsScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            viewModel = quizDetailsViewModel,
                         )
                     }
 

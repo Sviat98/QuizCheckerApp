@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bashkevich.quizchecker.adminApp.AddQuizRoute
 import com.bashkevich.quizchecker.adminApp.LocalNavHostController
+import com.bashkevich.quizchecker.adminApp.QuizDetailsRoute
 import com.bashkevich.quizchecker.components.QuizWeekItem
 import com.bashkevich.quizchecker.components.icons.IconGroup
 import com.bashkevich.quizchecker.components.icons.default_icons.Add
@@ -53,8 +54,7 @@ fun QuizListScreen(
                 QuizListContent(
                     state = state,
                     onQuizSelected = { quiz ->
-                        //viewModel.selectQuiz(quiz)
-                        //onNavigateToDetails()
+                        navController.navigate(QuizDetailsRoute(quiz.quizDay.id))
                     },
                     onAddQuizClick = { navController.navigate(AddQuizRoute) })
             }
