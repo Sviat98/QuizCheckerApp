@@ -16,6 +16,8 @@ import com.bashkevich.quizchecker.adminApp.screens.quizdetails.QuizDetailsScreen
 import com.bashkevich.quizchecker.adminApp.screens.quizdetails.QuizDetailsViewModel
 import com.bashkevich.quizchecker.adminApp.screens.quizlist.QuizListScreen
 import com.bashkevich.quizchecker.adminApp.screens.quizlist.QuizListViewModel
+import com.bashkevich.quizchecker.adminApp.screens.settings.SettingsScreen
+import com.bashkevich.quizchecker.adminApp.screens.settings.SettingsViewModel
 import com.bashkevich.quizchecker.di.coreModule
 import com.bashkevich.quizchecker.di.featureModule
 import com.bashkevich.quizchecker.di.platformModule
@@ -69,6 +71,14 @@ fun AdminApp() {
                         QuizDetailsScreen(
                             modifier = Modifier.fillMaxSize(),
                             viewModel = quizDetailsViewModel,
+                        )
+                    }
+                    composable<SettingsRoute> {
+                        val settingsViewModel = koinViewModel<SettingsViewModel>()
+
+                        SettingsScreen(
+                            modifier = Modifier.fillMaxSize(),
+                            viewModel = settingsViewModel
                         )
                     }
 

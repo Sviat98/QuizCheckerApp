@@ -6,6 +6,7 @@ import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import com.bashkevich.quizchecker.adminApp.screens.quizlist.QuizListViewModel
 import org.koin.core.module.dsl.factoryOf
+import com.bashkevich.quizchecker.adminApp.screens.settings.SettingsViewModel
 
 val quizListModule = module {
     viewModelOf(::QuizListViewModel)
@@ -18,7 +19,12 @@ val quizDetailsModule = module {
 val addQuizModule = module {
     factoryOf(::AddQuizViewModel)
 }
+
+val settingsModule = module {
+    viewModelOf(::SettingsViewModel)
+}
+
 val featureModule = module {
-    includes(quizListModule, quizDetailsModule, addQuizModule)
+    includes(quizListModule, quizDetailsModule, addQuizModule, settingsModule)
 }
 

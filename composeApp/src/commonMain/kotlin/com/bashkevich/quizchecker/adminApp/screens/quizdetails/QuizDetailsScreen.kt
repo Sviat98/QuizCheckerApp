@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bashkevich.quizchecker.adminApp.LocalNavHostController
+import com.bashkevich.quizchecker.adminApp.SettingsRoute
 import com.bashkevich.quizchecker.components.icons.IconGroup
 import com.bashkevich.quizchecker.components.icons.default_icons.ArrowBack
 import com.bashkevich.quizchecker.core.convertFromEnum
@@ -33,7 +34,8 @@ fun QuizDetailsScreen(
                 modifier = modifier,
                 state = state,
                 onEvent = { viewModel.onEvent(it) },
-                onBack = { navController.navigateUp() }
+                onBack = { navController.navigateUp() },
+                onNavigateToSettings = {navController.navigate(SettingsRoute)}
             )
         }
     }
@@ -45,7 +47,8 @@ private fun QuizDetailsContent(
     modifier: Modifier = Modifier,
     state: QuizDetailsScreenState,
     onEvent: (QuizDetailsScreenUiEvent) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToSettings: ()->Unit
 ) {
     Scaffold(
         topBar = {
@@ -75,7 +78,8 @@ private fun QuizDetailsContent(
         ) {
             QuizDetailsInfo(
                 quiz = state.quiz,
-                onEvent = onEvent
+                onEvent = onEvent,
+                onNavigateToSettings = onNavigateToSettings
             )
         }
     }
@@ -84,7 +88,8 @@ private fun QuizDetailsContent(
 @Composable
 private fun QuizDetailsInfo(
     quiz: Quiz,
-    onEvent: (QuizDetailsScreenUiEvent) -> Unit
+    onEvent: (QuizDetailsScreenUiEvent) -> Unit,
+    onNavigateToSettings: ()->Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -126,6 +131,10 @@ private fun QuizDetailsInfo(
                 }
             }
             else -> {}
+        }
+
+        Button(onClick = onNavigateToSettings) {
+            Text("Settings")
         }
     }
 }

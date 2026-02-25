@@ -10,3 +10,6 @@ data class QuizDetailsRoute(val quizId: String)
 
 @Serializable
 object AddQuizRoute
+
+@Serializable
+object SettingsRoute
