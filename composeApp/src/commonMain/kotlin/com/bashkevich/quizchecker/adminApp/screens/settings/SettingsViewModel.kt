@@ -1,12 +1,17 @@
 package com.bashkevich.quizchecker.adminApp.screens.settings
 
 import androidx.lifecycle.viewModelScope
+import com.bashkevich.quizchecker.mvi.BaseViewModel
+import com.bashkevich.quizchecker.settings.LocalLocalization
+import com.bashkevich.quizchecker.settings.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import com.bashkevich.quizchecker.mvi.BaseViewModel
+import kotlinx.coroutines.launch
 
-class SettingsViewModel : BaseViewModel<SettingsScreenState, SettingsScreenUiEvent, SettingsScreenAction>() {
+class SettingsViewModel(
+    private val settingsRepository: SettingsRepository
+) : BaseViewModel<SettingsScreenState, SettingsScreenUiEvent, SettingsScreenAction>() {
 
     private val _state = MutableStateFlow(SettingsScreenState.Companion.initial())
     override val state: StateFlow<SettingsScreenState>
@@ -15,10 +20,21 @@ class SettingsViewModel : BaseViewModel<SettingsScreenState, SettingsScreenUiEve
     val actions: StateFlow<SettingsScreenAction>
         get() = super.action as StateFlow<SettingsScreenAction>
 
+    init {
+        // Observe locale changes from repository
+        viewModelScope.launch {
+            settingsRepository.observeLocale().collect { locale ->
+                _state.value = _state.value.copy(locale = locale)
+            }
+        }
+    }
+
     fun onEvent(uiEvent: SettingsScreenUiEvent) {
         when (uiEvent) {
-            is SettingsScreenUiEvent.OnSettingsClick -> {
-                // Handle settings click
+            is SettingsScreenUiEvent.OnLocaleChange -> {
+                viewModelScope.launch {
+                    settingsRepository.setLocale(uiEvent.locale)
+                }
             }
         }
     }

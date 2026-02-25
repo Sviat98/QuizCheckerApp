@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="settings_title">Settings</string>
+    <string name="back_button">Back</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="language_label">Language</string>
+</resources>

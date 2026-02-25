@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -22,6 +23,7 @@ import com.bashkevich.quizchecker.di.coreModule
 import com.bashkevich.quizchecker.di.featureModule
 import com.bashkevich.quizchecker.di.platformModule
 import com.bashkevich.quizchecker.di.quizModule
+import com.bashkevich.quizchecker.settings.LocalLocalization
 import org.koin.compose.KoinMultiplatformApplication
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -37,14 +39,19 @@ val LocalNavHostController = staticCompositionLocalOf<NavHostController> {
 fun AdminApp() {
     KoinMultiplatformApplication(config = KoinConfiguration {
         modules(platformModule, coreModule, quizModule, featureModule)
-    })
-    {
+    }) {
+        val adminAppViewModel = koinViewModel<AdminAppViewModel>()
+        val appState by adminAppViewModel.state.collectAsStateWithLifecycle()
+
+        val locale = appState.locale
+
         MaterialTheme {
             val navController = rememberNavController()
 
             CompositionLocalProvider(
-                LocalNavHostController provides navController
-            ){
+                LocalNavHostController provides navController,
+                LocalLocalization provides locale
+            ) {
                 NavHost(
                     navController = navController,
                     startDestination = QuizListRoute

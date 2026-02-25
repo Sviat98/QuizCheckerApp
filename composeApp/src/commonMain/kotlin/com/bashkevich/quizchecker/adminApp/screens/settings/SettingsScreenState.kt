@@ -4,14 +4,16 @@ import androidx.compose.runtime.Immutable
 import com.bashkevich.quizchecker.mvi.UiAction
 import com.bashkevich.quizchecker.mvi.UiEvent
 import com.bashkevich.quizchecker.mvi.UiState
+import com.bashkevich.quizchecker.settings.domain.SettingsLocale
 
 @Immutable
 sealed class SettingsScreenUiEvent : UiEvent {
-    data object OnSettingsClick : SettingsScreenUiEvent()
+    data class OnLocaleChange(val locale: SettingsLocale) : SettingsScreenUiEvent()
 }
 
 @Immutable
 data class SettingsScreenState(
+    val locale: SettingsLocale = SettingsLocale.English_UK
 ) : UiState {
     companion object {
         fun initial() = SettingsScreenState()

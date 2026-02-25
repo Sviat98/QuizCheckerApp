@@ -10,6 +10,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bashkevich.quizchecker.adminApp.LocalNavHostController
 import com.bashkevich.quizchecker.components.icons.IconGroup
 import com.bashkevich.quizchecker.components.icons.default_icons.ArrowBack
+import com.bashkevich.quizchecker.components.icons.default_icons.ArrowDropDown
+import com.bashkevich.quizchecker.settings.domain.LOCALES
+import com.bashkevich.quizchecker.settings.domain.SettingsLocale
 
 @Composable
 fun SettingsScreen(
@@ -62,15 +65,58 @@ private fun SettingsContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = "Settings",
-                style = MaterialTheme.typography.headlineMedium
+            LanguageChooser(
+                modifier = Modifier.fillMaxWidth(),
+                currentLocale = state.locale,
+                onLocaleChange = { locale ->
+                    onEvent(SettingsScreenUiEvent.OnLocaleChange(locale))
+                }
             )
+        }
+    }
+}
 
+@Composable
+fun LanguageChooser(
+    modifier: Modifier = Modifier,
+    currentLocale: SettingsLocale,
+    onLocaleChange: (SettingsLocale) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Column(modifier = Modifier.then(modifier)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
-                text = "This is a basic settings screen",
+                text = "Language: ",
                 style = MaterialTheme.typography.bodyLarge
             )
+            Text(
+                currentLocale.label,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
+            IconButton(onClick = { expanded = true }) {
+                Icon(
+                    imageVector = IconGroup.Default.ArrowDropDown,
+                    contentDescription = "Choose Language",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                LOCALES.forEach { language ->
+                    DropdownMenuItem(
+                        text = { Text(language.label) },
+                        onClick = {
+                            onLocaleChange(language)
+                            expanded = false
+                        }
+                    )
+                }
+            }
         }
     }
 }

@@ -6,6 +6,10 @@ import com.bashkevich.quizchecker.QuizCheckerDatabase
 import com.bashkevich.quizchecker.core.ktor.KtorHttpEngine
 import com.bashkevich.quizchecker.core.sqldelight.DriverFactory
 import com.bashkevich.quizchecker.core.storage.FlowSettingsFactory
+import com.bashkevich.quizchecker.core.storage.KeyValueStorage
+import com.bashkevich.quizchecker.settings.data.SettingsLocalDataSource
+import com.bashkevich.quizchecker.settings.repository.SettingsRepository
+import com.bashkevich.quizchecker.settings.repository.SettingsRepositoryImpl
 import com.example.Quiz_day
 import com.russhwolf.settings.ExperimentalSettingsApi
 import io.ktor.client.HttpClient
@@ -89,12 +93,15 @@ val databaseModule = module {
 @OptIn(ExperimentalSettingsApi::class)
 val keyValueStorageModule = module {
     singleOf(::FlowSettingsFactory)
-//    single {
-//        val flowSettingsFactory: FlowSettingsFactory = get()
-//        KeyValueStorage(flowSettingsFactory.createSettings())
-//    }
+    single {
+        val flowSettingsFactory: FlowSettingsFactory = get()
+        KeyValueStorage(flowSettingsFactory.createSettings())
+    }
 }
 
 val coreModule = module {
-    includes(ktorModule,databaseModule)
+    includes(ktorModule, databaseModule, keyValueStorageModule)
+
+    singleOf(::SettingsLocalDataSource)
+    single<SettingsRepository> { SettingsRepositoryImpl(get()) }
 }
