@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.resources.stringResource
+import quizchecker.composeapp.generated.resources.Res
 import kotlin.time.Clock
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
@@ -55,12 +57,12 @@ fun SimpleDatePickerDialog(
                     onDismissRequest()
                 }
             ) {
-                Text("OK")
+                Text(stringResource(Res.string.ok_button))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text("Cancel")
+                Text(stringResource(Res.string.cancel_button))
             }
         }
     ) {

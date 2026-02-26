@@ -20,15 +20,6 @@ class SettingsViewModel(
     val actions: StateFlow<SettingsScreenAction>
         get() = super.action as StateFlow<SettingsScreenAction>
 
-    init {
-        // Observe locale changes from repository
-        viewModelScope.launch {
-            settingsRepository.observeLocale().collect { locale ->
-                _state.value = _state.value.copy(locale = locale)
-            }
-        }
-    }
-
     fun onEvent(uiEvent: SettingsScreenUiEvent) {
         when (uiEvent) {
             is SettingsScreenUiEvent.OnLocaleChange -> {

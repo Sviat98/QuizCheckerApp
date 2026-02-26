@@ -8,6 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import quizchecker.composeapp.generated.resources.Res
 
 @Composable
 fun QuizListEmpty(
@@ -20,7 +22,7 @@ fun QuizListEmpty(
             //.background(color = MaterialTheme.colorScheme.background)
     ) {
         Text(
-            text = "Event Schedule",
+            text = stringResource(Res.string.event_schedule_title),
             modifier = Modifier.fillMaxWidth(),
             color = MaterialTheme.colorScheme.onBackground,
         )
@@ -29,11 +31,11 @@ fun QuizListEmpty(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "There are no items")
+            Text(text = stringResource(Res.string.no_items_text))
             Button(
                 onClick = onAddQuizClick,
             ) {
-                Text("Add Quiz")
+                Text(stringResource(Res.string.add_quiz_button))
             }
         }
 

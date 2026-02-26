@@ -15,6 +15,8 @@ import com.bashkevich.quizchecker.core.convertFromEnum
 import com.bashkevich.quizchecker.core.convertToLocalTimeFromUTC
 import com.bashkevich.quizchecker.model.Status
 import com.bashkevich.quizchecker.model.quiz.domain.Quiz
+import org.jetbrains.compose.resources.stringResource
+import quizchecker.composeapp.generated.resources.Res
 
 @Composable
 fun QuizDetailsScreen(
@@ -53,10 +55,10 @@ private fun QuizDetailsContent(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Quiz Details") },
+                title = { Text(stringResource(Res.string.quiz_details_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(imageVector = IconGroup.Default.ArrowBack, contentDescription = "Back")
+                        Icon(imageVector = IconGroup.Default.ArrowBack, contentDescription = stringResource(Res.string.back_button))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -104,7 +106,7 @@ private fun QuizDetailsInfo(
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = "Status: ${quiz.quizDay.status.convertFromEnum()}",
+            text = "${stringResource(Res.string.status_label)}: ${quiz.quizDay.status.convertFromEnum()}",
             style = MaterialTheme.typography.bodyMedium
         )
 
@@ -113,28 +115,28 @@ private fun QuizDetailsInfo(
                 Button(onClick = {
                     onEvent(QuizDetailsScreenUiEvent.StartQuiz(quiz.quizDay.id))
                 }) {
-                    Text("Start")
+                    Text(stringResource(Res.string.start_button))
                 }
             }
             Status.IN_PROGRESS -> {
                 Button(onClick = {
                     onEvent(QuizDetailsScreenUiEvent.FinishQuiz(quiz.quizDay.id))
                 }) {
-                    Text("Finish")
+                    Text(stringResource(Res.string.finish_button))
                 }
             }
             Status.COMPLETED -> {
                 Button(onClick = {
                     onEvent(QuizDetailsScreenUiEvent.RevertQuiz(quiz.quizDay.id))
                 }) {
-                    Text("Revert")
+                    Text(stringResource(Res.string.revert_button))
                 }
             }
             else -> {}
         }
 
         Button(onClick = onNavigateToSettings) {
-            Text("Settings")
+            Text(stringResource(Res.string.settings_title))
         }
     }
 }

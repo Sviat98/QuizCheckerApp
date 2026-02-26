@@ -4,4 +4,21 @@
     <string name="back_button">Zurück</string>
     <string name="choose_language">Sprache wählen</string>
     <string name="language_label">Sprache</string>
+    <string name="quiz_details_title">Quiz-Details</string>
+    <string name="status_label">Status</string>
+    <string name="start_button">Starten</string>
+    <string name="finish_button">Beenden</string>
+    <string name="revert_button">Zurücksetzen</string>
+    <string name="add_quiz_button">Quiz hinzufügen</string>
+    <string name="title_placeholder">Titel</string>
+    <string name="date_placeholder">Datum</string>
+    <string name="time_placeholder">Zeit</string>
+    <string name="registration_date_placeholder">Registrierungsdatum</string>
+    <string name="registration_time_placeholder">Registrierungszeit</string>
+    <string name="city_placeholder">Stadt</string>
+    <string name="select_time_title">Zeit auswählen</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Abbrechen</string>
+    <string name="event_schedule_title">Veranstaltungsplan</string>
+    <string name="no_items_text">Es gibt keine Elemente</string>
 </resources>

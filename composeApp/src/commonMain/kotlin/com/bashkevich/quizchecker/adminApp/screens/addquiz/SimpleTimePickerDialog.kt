@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.jetbrains.compose.resources.stringResource
+import quizchecker.composeapp.generated.resources.Res
 import kotlin.time.Clock
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,15 +39,15 @@ fun SimpleTimePickerDialog(
                     onDismissRequest()
                 }
             ) {
-                Text("OK")
+                Text(stringResource(Res.string.ok_button))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismissRequest) {
-                Text("Cancel")
+                Text(stringResource(Res.string.cancel_button))
             }
         },
-        title = { Text("Select time") }
+        title = { Text(stringResource(Res.string.select_time_title)) }
     ) {
         TimePicker(state = timePickerState)
     }

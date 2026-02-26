@@ -4,4 +4,21 @@
     <string name="back_button">Назад</string>
     <string name="choose_language">Выберите язык</string>
     <string name="language_label">Язык</string>
+    <string name="quiz_details_title">Детали викторины</string>
+    <string name="status_label">Статус</string>
+    <string name="start_button">Начать</string>
+    <string name="finish_button">Завершить</string>
+    <string name="revert_button">Отменить</string>
+    <string name="add_quiz_button">Добавить викторину</string>
+    <string name="title_placeholder">Название</string>
+    <string name="date_placeholder">Дата</string>
+    <string name="time_placeholder">Время</string>
+    <string name="registration_date_placeholder">Дата регистрации</string>
+    <string name="registration_time_placeholder">Время регистрации</string>
+    <string name="city_placeholder">Город</string>
+    <string name="select_time_title">Выберите время</string>
+    <string name="ok_button">ОК</string>
+    <string name="cancel_button">Отмена</string>
+    <string name="event_schedule_title">Расписание событий</string>
+    <string name="no_items_text">Нет элементов</string>
 </resources>

@@ -13,7 +13,7 @@ sealed class SettingsScreenUiEvent : UiEvent {
 
 @Immutable
 data class SettingsScreenState(
-    val locale: SettingsLocale = SettingsLocale.English_UK
+    val sample: String = ""
 ) : UiState {
     companion object {
         fun initial() = SettingsScreenState()

@@ -11,8 +11,11 @@ import com.bashkevich.quizchecker.adminApp.LocalNavHostController
 import com.bashkevich.quizchecker.components.icons.IconGroup
 import com.bashkevich.quizchecker.components.icons.default_icons.ArrowBack
 import com.bashkevich.quizchecker.components.icons.default_icons.ArrowDropDown
+import com.bashkevich.quizchecker.settings.LocalLocalization
 import com.bashkevich.quizchecker.settings.domain.LOCALES
 import com.bashkevich.quizchecker.settings.domain.SettingsLocale
+import org.jetbrains.compose.resources.stringResource
+import quizchecker.composeapp.generated.resources.Res
 
 @Composable
 fun SettingsScreen(
@@ -39,13 +42,14 @@ private fun SettingsContent(
     onEvent: (SettingsScreenUiEvent) -> Unit,
     onBack: () -> Unit
 ) {
+    val locale = LocalLocalization.current
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = { Text(stringResource(Res.string.settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(imageVector = IconGroup.Default.ArrowBack, contentDescription = "Back")
+                        Icon(imageVector = IconGroup.Default.ArrowBack, contentDescription = stringResource(Res.string.back_button))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -67,7 +71,7 @@ private fun SettingsContent(
         ) {
             LanguageChooser(
                 modifier = Modifier.fillMaxWidth(),
-                currentLocale = state.locale,
+                currentLocale = locale,
                 onLocaleChange = { locale ->
                     onEvent(SettingsScreenUiEvent.OnLocaleChange(locale))
                 }
@@ -88,7 +92,7 @@ fun LanguageChooser(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Language: ",
+                text = "${stringResource(Res.string.language_label)}: ",
                 style = MaterialTheme.typography.bodyLarge
             )
             Text(
@@ -99,7 +103,7 @@ fun LanguageChooser(
             IconButton(onClick = { expanded = true }) {
                 Icon(
                     imageVector = IconGroup.Default.ArrowDropDown,
-                    contentDescription = "Choose Language",
+                    contentDescription = stringResource(Res.string.choose_language),
                     tint = MaterialTheme.colorScheme.primary
                 )
             }

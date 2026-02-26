@@ -28,6 +28,8 @@ import com.bashkevich.quizchecker.components.icons.default_icons.CalendarMonth
 import com.bashkevich.quizchecker.components.icons.default_icons.Schedule
 import com.bashkevich.quizchecker.core.formatDate
 import com.bashkevich.quizchecker.core.formatTime
+import org.jetbrains.compose.resources.stringResource
+import quizchecker.composeapp.generated.resources.Res
 
 
 @Composable
@@ -72,13 +74,13 @@ fun AddQuizContent(
         TextField(
             value = addQuizScreenState.title,
             onValueChange = { onEvent(AddQuizScreenUiEvent.OnTitleChange(it)) },
-            placeholder = { Text("Title") })
+            placeholder = { Text(stringResource(Res.string.title_placeholder)) })
 
 
         TextField(
             value = addQuizScreenState.eventDate.formatDate(),
             onValueChange = { },
-            placeholder = { Text("Date") },
+            placeholder = { Text(stringResource(Res.string.date_placeholder)) },
             readOnly = true,
             trailingIcon = {
                 IconButton(onClick = {
@@ -95,7 +97,7 @@ fun AddQuizContent(
         TextField(
             value = addQuizScreenState.eventTime.formatTime(),
             onValueChange = { },
-            placeholder = { Text("Time") },
+            placeholder = { Text(stringResource(Res.string.time_placeholder)) },
             readOnly = true,
             trailingIcon = {
                 IconButton(onClick = {
@@ -112,7 +114,7 @@ fun AddQuizContent(
         TextField(
             value = addQuizScreenState.registrationDate.formatDate(),
             onValueChange = { },
-            placeholder = { Text("Registration Date") },
+            placeholder = { Text(stringResource(Res.string.registration_date_placeholder)) },
             readOnly = true,
             trailingIcon = {
                 IconButton(onClick = {
@@ -130,7 +132,7 @@ fun AddQuizContent(
         TextField(
             value = addQuizScreenState.registrationTime.formatTime(),
             onValueChange = { },
-            placeholder = { Text("Registration Time") },
+            placeholder = { Text(stringResource(Res.string.registration_time_placeholder)) },
             readOnly = true,
             trailingIcon = {
                 IconButton(onClick = {
@@ -160,7 +162,7 @@ fun AddQuizContent(
                         //This value is used to assign to the DropDown the same width
                         textfieldSize = coordinates.size.toSize()
                     },
-                placeholder = { Text("City") },
+                placeholder = { Text(stringResource(Res.string.city_placeholder)) },
                 trailingIcon = {
                     Icon(
                         IconGroup.Default.ArrowDropDown, "select city",
@@ -192,7 +194,7 @@ fun AddQuizContent(
         Button(onClick = {
             onEvent(AddQuizScreenUiEvent.AddQuiz)
         }) {
-            Text("Add Quiz")
+            Text(stringResource(Res.string.add_quiz_button))
         }
 
         val onInnerDialogCloseRequest = {
