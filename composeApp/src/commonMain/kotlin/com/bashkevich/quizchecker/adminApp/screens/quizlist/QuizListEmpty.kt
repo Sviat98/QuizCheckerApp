@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import com.bashkevich.quizchecker.composeapp.generated.resources.*
+import quizcheckerapp.composeapp.generated.resources.*
 
 @Composable
 fun QuizListEmpty(

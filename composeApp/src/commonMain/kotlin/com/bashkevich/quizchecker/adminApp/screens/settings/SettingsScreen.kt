@@ -15,7 +15,7 @@ import com.bashkevich.quizchecker.settings.LocalLocalization
 import com.bashkevich.quizchecker.settings.domain.LOCALES
 import com.bashkevich.quizchecker.settings.domain.SettingsLocale
 import org.jetbrains.compose.resources.stringResource
-import com.bashkevich.quizchecker.composeapp.generated.resources.*
+import quizcheckerapp.composeapp.generated.resources.*
 
 @Composable
 fun SettingsScreen(

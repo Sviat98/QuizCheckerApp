@@ -16,7 +16,7 @@ import com.bashkevich.quizchecker.core.convertToLocalTimeFromUTC
 import com.bashkevich.quizchecker.model.Status
 import com.bashkevich.quizchecker.model.quiz.domain.Quiz
 import org.jetbrains.compose.resources.stringResource
-import com.bashkevich.quizchecker.composeapp.generated.resources.*
+import quizcheckerapp.composeapp.generated.resources.*
 
 @Composable
 fun QuizDetailsScreen(

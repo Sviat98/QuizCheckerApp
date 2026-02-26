@@ -11,9 +11,6 @@ plugins {
     alias(libs.plugins.sqlDelight)
 }
 
-group = "com.bashkevich.quizchecker"
-version = "1.0.0"
-
 kotlin {
 
     androidLibrary {
@@ -86,11 +83,6 @@ sqldelight {
             packageName.set("com.bashkevich.quizchecker")
         }
     }
-}
-
-compose.resources {
-    packageOfResClass = "com.bashkevich.quizchecker.composeapp.generated.resources"
-    generateResClasses = true
 }
 
 compose.desktop {

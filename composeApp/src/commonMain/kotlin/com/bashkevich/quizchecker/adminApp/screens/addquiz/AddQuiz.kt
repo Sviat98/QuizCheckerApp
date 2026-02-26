@@ -29,7 +29,7 @@ import com.bashkevich.quizchecker.components.icons.default_icons.Schedule
 import com.bashkevich.quizchecker.core.formatDate
 import com.bashkevich.quizchecker.core.formatTime
 import org.jetbrains.compose.resources.stringResource
-import com.bashkevich.quizchecker.composeapp.generated.resources.*
+import quizcheckerapp.composeapp.generated.resources.*
 
 @Composable
 fun AddQuizScreen(
