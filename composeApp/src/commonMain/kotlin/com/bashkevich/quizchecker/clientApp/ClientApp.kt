@@ -21,8 +21,8 @@ import org.koin.compose.KoinMultiplatformApplication
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.KoinConfiguration
 
-import quizcheckerapp.composeapp.generated.resources.Res
-import quizcheckerapp.composeapp.generated.resources.compose_multiplatform
+import com.bashkevich.quizchecker.composeapp.generated.resources.Res
+import com.bashkevich.quizchecker.composeapp.generated.resources.compose_multiplatform
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
