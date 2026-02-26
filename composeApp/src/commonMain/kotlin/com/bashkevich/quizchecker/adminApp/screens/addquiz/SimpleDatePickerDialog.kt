@@ -9,7 +9,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.resources.stringResource
-import quizcheckerapp.composeapp.generated.resources.*
+import com.bashkevich.quizchecker.resources.*
 import kotlin.time.Clock
 import kotlin.time.Instant
 import kotlinx.datetime.LocalDate

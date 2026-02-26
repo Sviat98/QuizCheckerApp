@@ -85,6 +85,12 @@ sqldelight {
     }
 }
 
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "com.bashkevich.quizchecker.resources"
+    generateResClass = auto
+}
+
 compose.desktop {
     application {
         mainClass = "com.bashkevich.quizchecker.MainKt"

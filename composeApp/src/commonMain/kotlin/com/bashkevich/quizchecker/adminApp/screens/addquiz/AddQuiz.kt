@@ -28,8 +28,9 @@ import com.bashkevich.quizchecker.components.icons.default_icons.CalendarMonth
 import com.bashkevich.quizchecker.components.icons.default_icons.Schedule
 import com.bashkevich.quizchecker.core.formatDate
 import com.bashkevich.quizchecker.core.formatTime
+import com.bashkevich.quizchecker.resources.*
 import org.jetbrains.compose.resources.stringResource
-import quizcheckerapp.composeapp.generated.resources.*
+//import com.bashkevich.quizchecker.resources.*
 
 @Composable
 fun AddQuizScreen(

@@ -11,7 +11,7 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.resources.stringResource
-import quizcheckerapp.composeapp.generated.resources.*
+import com.bashkevich.quizchecker.resources.*
 import kotlin.time.Clock
 
 @OptIn(ExperimentalMaterial3Api::class)
