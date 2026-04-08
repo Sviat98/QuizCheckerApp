@@ -1,5 +1,7 @@
 package com.bashkevich.quizchecker.model.quiz.local
 
+import com.bashkevich.quizchecker.model.quiz.local.QuizWeekWithQuizDay
+import com.bashkevich.quizchecker.model.quiz.local.dao.QuizDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,18 +33,32 @@ class QuizLocalDataSource(
         _selectedQuiz.value = Pair(quizWeekId,quizId)
     }
 
-    fun insertQuizList(quizEntities: List<QuizWeekWithQuizDay>) =
-        quizDao.insertQuizList(quizEntities)
+    // Direct delegation to Room DAO
+    suspend fun insertQuizList(quizWeekWithQuizDayList: List<QuizWeekWithQuizDay>) {
+        quizDao.insertQuizList(quizWeekWithQuizDayList)
+    }
 
-    fun insertUpcomingQuizList(upcomingQuizEntities: List<QuizWeekWithQuizDay>) =
+    suspend fun insertQuiz(quizWeekWithQuizDay: QuizWeekWithQuizDay) {
+        quizDao.insertQuiz(quizWeekWithQuizDay)
+    }
+
+    fun getQuizList(): Flow<List<QuizWeekWithQuizDay>> {
+        return quizDao.getQuizList()
+    }
+
+    fun getQuizSchedule(): Flow<List<QuizEventEntity>> {
+        return quizDao.getQuizSchedule()
+    }
+
+    suspend fun getQuizEventById(quizId: String): QuizWeekWithQuizDay? {
+        return quizDao.getQuizEventById(quizId)
+    }
+
+    fun observeQuizEventById(quizId: String): Flow<QuizWeekWithQuizDay?> {
+        return quizDao.observeQuizEventById(quizId)
+    }
+
+    suspend fun insertUpcomingQuizList(upcomingQuizEntities: List<QuizWeekWithQuizDay>) {
         quizDao.insertUpcomingQuizList(upcomingQuizEntities)
-
-    fun insertQuiz(quizEntity: QuizWeekWithQuizDay) = quizDao.insertQuiz(quizEntity)
-
-    fun getQuizList() = quizDao.getQuizList()
-
-    fun getQuizSchedule(): Flow<List<QuizEventItemEntity>> = quizDao.getQuizSchedule()
-
-    fun observeQuizEventById(quizId: String): Flow<QuizWeekWithQuizDay?> = quizDao.observeQuizEventById(quizId)
-
+    }
 }
