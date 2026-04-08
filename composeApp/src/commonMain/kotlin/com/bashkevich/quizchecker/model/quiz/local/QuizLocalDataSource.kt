@@ -1,6 +1,5 @@
 package com.bashkevich.quizchecker.model.quiz.local
 
-import com.bashkevich.quizchecker.model.quiz.local.QuizWeekWithQuizDay
 import com.bashkevich.quizchecker.model.quiz.local.dao.QuizDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,31 +33,31 @@ class QuizLocalDataSource(
     }
 
     // Direct delegation to Room DAO
-    suspend fun insertQuizList(quizWeekWithQuizDayList: List<QuizWeekWithQuizDay>) {
-        quizDao.insertQuizList(quizWeekWithQuizDayList)
+    suspend fun insertQuizList(quizEvents: List<QuizEventEntity>) {
+        quizDao.insertQuizList(quizEvents)
     }
 
-    suspend fun insertQuiz(quizWeekWithQuizDay: QuizWeekWithQuizDay) {
-        quizDao.insertQuiz(quizWeekWithQuizDay)
+    suspend fun insertQuiz(quizEventEntity: QuizEventEntity) {
+        quizDao.insertQuiz(quizEventEntity)
     }
 
-    fun getQuizList(): Flow<List<QuizWeekWithQuizDay>> {
+    fun getQuizList(): Flow<List<QuizEventEntity>> {
         return quizDao.getQuizList()
     }
 
-    fun getQuizSchedule(): Flow<List<QuizEventEntity>> {
-        return quizDao.getQuizSchedule()
-    }
-
-    suspend fun getQuizEventById(quizId: String): QuizWeekWithQuizDay? {
-        return quizDao.getQuizEventById(quizId)
-    }
-
-    fun observeQuizEventById(quizId: String): Flow<QuizWeekWithQuizDay?> {
+//    fun getQuizSchedule(): Flow<List<QuizEventEntity>> {
+//        return quizDao.getQuizSchedule()
+//    }
+//
+//    suspend fun getQuizEventById(quizId: String): QuizWeekWithQuizDay? {
+//        return quizDao.getQuizEventById(quizId)
+//    }
+//
+    fun observeQuizEventById(quizId: String): Flow<QuizEventEntity?> {
         return quizDao.observeQuizEventById(quizId)
     }
-
-    suspend fun insertUpcomingQuizList(upcomingQuizEntities: List<QuizWeekWithQuizDay>) {
-        quizDao.insertUpcomingQuizList(upcomingQuizEntities)
-    }
+//
+//    suspend fun insertUpcomingQuizList(upcomingQuizEntities: List<QuizWeekWithQuizDay>) {
+//        quizDao.insertUpcomingQuizList(upcomingQuizEntities)
+//    }
 }

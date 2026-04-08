@@ -15,7 +15,7 @@ interface QuizRepository {
 
     suspend fun addQuiz(title: String, eventDateTime: LocalDateTime, registrationDateTime: LocalDateTime, city: String)
     fun observeQuizList(): Flow<List<Quiz>>
-    fun observeQuizSchedule(showRegisteredStatus: Boolean = false): Flow<List<Quiz>>
+    //fun observeQuizSchedule(showRegisteredStatus: Boolean = false): Flow<List<Quiz>>
     fun setCurrentQuizId(quizId: String)
 
     fun setSelectedQuiz(quizWeekId: String, quizId: String)
@@ -27,5 +27,5 @@ interface QuizRepository {
     suspend fun finishQuiz(quizId: String)
 
     suspend fun revertQuiz(quizId: String)
-    suspend fun getUpcomingQuizList(playerId: String): LoadResult<List<Quiz>, NetworkError>
+    //suspend fun getUpcomingQuizList(playerId: String): LoadResult<List<Quiz>, NetworkError>
 }

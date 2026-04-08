@@ -13,6 +13,7 @@ import com.bashkevich.quizchecker.model.quiz.remote.QuizWeekDto
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Instant
 
 // DTO -> Entity mapping functions
 
@@ -92,22 +93,22 @@ fun QuizDayDto.dtoToDomain(quizWeekId: String) = QuizDay(
 // QuizEventItemEntity -> Domain (for schedule with registration flag)
 // Статус REGISTERED нужен только для отображения в расписании на QuizListScreen(QuizScheduleScreen)
 
-//fun QuizEventEntity.toDomain(showRegisteredStatus: Boolean = false): Quiz {
-//    val quizDay = this.quizDay
-//    val status = Status.valueOf(quizDay.status)
-//
-//    return Quiz(
-//        id = this.quizWeek.id,
-//        title = this.quizWeek.title,
-//        quizDay = QuizDay(
-//            id = this.quizDay.quiz_day_id,
-//            status = if (showRegisteredStatus && this.regFlag && status == Status.NOT_STARTED) Status.REGISTERED else status,
-//            registrationOpen = quizDay.registration_open,
-//            dateTime = kotlinx.datetime.Instant.fromEpochMilliseconds(quizDay.date_time)
-//                .toLocalDateTime(TimeZone.UTC),
-//            registrationTimeBegin = kotlinx.datetime.Instant.fromEpochMilliseconds(quizDay.registration_date_time)
-//                .toLocalDateTime(TimeZone.UTC),
-//            city = quizDay.city
-//            )
-//    )
-//}
+fun QuizEventEntity.entityToDomain(): Quiz {
+    val quizDay = this.quizDay
+    val status = Status.valueOf(quizDay.status)
+
+    return Quiz(
+        id = this.quizWeek.id,
+        title = this.quizWeek.title,
+        quizDay = QuizDay(
+            id = this.quizDay.quiz_day_id,
+            status = status,
+            registrationOpen = quizDay.registration_open,
+            dateTime = Instant.fromEpochMilliseconds(quizDay.date_time)
+                .toLocalDateTime(TimeZone.UTC),
+            registrationTimeBegin = Instant.fromEpochMilliseconds(quizDay.registration_date_time)
+                .toLocalDateTime(TimeZone.UTC),
+            city = quizDay.city
+            )
+    )
+}

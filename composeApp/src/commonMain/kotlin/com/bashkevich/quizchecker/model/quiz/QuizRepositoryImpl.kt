@@ -25,22 +25,22 @@ class QuizRepositoryImpl(
     private val quizLocalDataSource: QuizLocalDataSource
 ) : QuizRepository {
 
-    override suspend fun getUpcomingQuizList(playerId: String): LoadResult<List<Quiz>, NetworkError> =
-        quizRemoteDataSource.getUpcomingQuizList(playerId)
-            .mapSuccess { dtoList ->
-                dtoList.map { singleDto ->
-                    singleDto.toEntity()
-                }
-            }
-            .doOnSuccess { quizEntities ->
-                withContext(Dispatchers.IO) {
-                    quizLocalDataSource.insertUpcomingQuizList(
-                        quizEntities
-                    )
-                }
-            }
-            .mapSuccess { entries -> entries.map { quizEntity -> quizEntity.entityToDomain() } }
-            .mapError { it.toNetworkError() }
+//    override suspend fun getUpcomingQuizList(playerId: String): LoadResult<List<Quiz>, NetworkError> =
+//        quizRemoteDataSource.getUpcomingQuizList(playerId)
+//            .mapSuccess { dtoList ->
+//                dtoList.map { singleDto ->
+//                    singleDto.toEntity()
+//                }
+//            }
+//            .doOnSuccess { quizEntities ->
+//                withContext(Dispatchers.IO) {
+//                    quizLocalDataSource.insertUpcomingQuizList(
+//                        quizEntities
+//                    )
+//                }
+//            }
+//            .mapSuccess { entries -> entries.map { quizEntity -> quizEntity.entityToDomain() } }
+//            .mapError { it.toNetworkError() }
 
 
     override suspend fun getQuizListResult(): LoadResult<List<Quiz>, NetworkError> =
@@ -108,10 +108,10 @@ class QuizRepositoryImpl(
             .map { quizEntities -> quizEntities.map { it.entityToDomain() } }
 
 
-    override fun observeQuizSchedule(showRegisteredStatus: Boolean) =
-        quizLocalDataSource.getQuizSchedule()
-            .map { quizEntities -> quizEntities.map { it.toDomain(showRegisteredStatus) } }
-
+//    override fun observeQuizSchedule(showRegisteredStatus: Boolean) =
+//        quizLocalDataSource.getQuizSchedule()
+//            .map { quizEntities -> quizEntities.map { it.toDomain(showRegisteredStatus) } }
+//
 
     override fun observeCurrentQuiz(quizId: String) =
         quizLocalDataSource.observeQuizEventById(quizId).map { quiz ->

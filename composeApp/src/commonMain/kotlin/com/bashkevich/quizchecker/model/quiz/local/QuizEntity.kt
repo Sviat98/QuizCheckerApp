@@ -7,9 +7,12 @@ import com.bashkevich.quizchecker.model.quiz.local.entity.QuizWeekEntity
 
 data class QuizEventEntity(
     @Embedded
-    val quizWeek: QuizWeekEntity,
-    @Embedded
     val quizDay: QuizDayEntity,
+    @Relation(
+        parentColumn = "quiz_week_id",
+        entityColumn = "id"
+    )
+    val quizWeek: QuizWeekEntity
 )
 
 // One-to-many relationship: QuizWeek + List<QuizDay>
