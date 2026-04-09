@@ -5,7 +5,17 @@
       "Bash(git commit:*)",
       "Bash(find:*)",
       "Bash(dir:*)",
-      "Bash(git push)"
+      "Bash(git push)",
+      "Bash(cmd /c \".\\\\gradlew.bat\" :composeApp:generateComposeResourceGeneratorMain)",
+      "Bash(cmd /c \"gradlew.bat :composeApp:build\")",
+      "Bash(.gradlew.bat :composeApp:build -x test)",
+      "Bash(./gradlew :composeApp:build -x test)",
+      "Bash(./gradlew :composeApp:generateComposeResClass --rerun-tasks)",
+      "mcp__ide__getDiagnostics",
+      "Bash(./gradlew :composeApp:compileCommonMainKotlinMetadata)",
+      "Bash(./gradlew :composeApp:compileAndroidMain)",
+      "Bash(./gradlew :desktopAdminApp:compileKotlin)",
+      "Bash(./gradlew :desktopAdminApp:compileKotlinJvm)"
     ]
   }
 }
