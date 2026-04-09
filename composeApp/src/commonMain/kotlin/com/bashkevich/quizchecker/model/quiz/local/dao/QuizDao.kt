@@ -46,8 +46,8 @@ interface QuizDao {
 
     @Transaction
     suspend fun insertQuiz(quizEvent: QuizEventEntity) {
-        insertQuizDay(quizEvent.quizDay)
         insertQuizWeek(quizEvent.quizWeek)
+        insertQuizDay(quizEvent.quizDay)
     }
 
     @Transaction

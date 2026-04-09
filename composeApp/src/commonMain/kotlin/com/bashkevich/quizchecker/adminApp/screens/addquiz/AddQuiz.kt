@@ -50,6 +50,7 @@ fun AddQuizScreen(
     }, state = dialogState) {
         AddQuizContent(
             addQuizScreenState = state,
+            onBack = {navController.navigateUp()},
             onEvent = { viewModel.onEvent(it) }
         )
     }
@@ -61,6 +62,7 @@ fun AddQuizScreen(
 @Composable
 fun AddQuizContent(
     addQuizScreenState: AddQuizScreenState,
+    onBack: ()-> Unit,
     onEvent: (AddQuizScreenUiEvent) -> Unit
 ) {
     Column(
@@ -193,6 +195,7 @@ fun AddQuizContent(
 
         Button(onClick = {
             onEvent(AddQuizScreenUiEvent.AddQuiz)
+            onBack()
         }) {
             Text(stringResource(Res.string.add_quiz_button))
         }

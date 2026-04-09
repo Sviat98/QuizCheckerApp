@@ -67,6 +67,7 @@ class QuizRepositoryImpl(
             }
             .doOnSuccess { quizEntity ->
                 withContext(Dispatchers.IO) {
+                    println("insertQuiz $quizEntity")
                     quizLocalDataSource.insertQuiz(
                         quizEntity
                     )

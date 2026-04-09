@@ -34,14 +34,14 @@ fun QuizEventDto.toEntity() = QuizEventEntity(
 )
 
 fun QuizDayDto.toEntity(quizWeekId: String) = QuizDayEntity(
-    quiz_week_id = quizWeekId,
-    quiz_day_id = this.id,
-    season_number = this.seasonNumber,
-    date_time = this.dateTime.toInstant(TimeZone.UTC).toEpochMilliseconds(),
+    quizWeekId = quizWeekId,
+    quizDayId = this.id,
+    seasonNumber = this.seasonNumber,
+    dateTime = this.dateTime.toInstant(TimeZone.UTC).toEpochMilliseconds(),
     status = this.status.name,
-    registration_open = this.registrationOpen,
+    registrationOpen = this.registrationOpen,
     city = this.city,
-    registration_date_time = this.registrationTimeBegin.toInstant(TimeZone.UTC).toEpochMilliseconds()
+    registrationDateTime = this.registrationTimeBegin.toInstant(TimeZone.UTC).toEpochMilliseconds()
 )
 
 // Entity -> Domain mapping functions
@@ -62,14 +62,14 @@ fun QuizWeekWithQuizDays.toDomain() =
 
 fun QuizDayEntity.toDomain() =
     QuizDay(
-        id = this.quiz_day_id,
-        dateTime = kotlinx.datetime.Instant.fromEpochMilliseconds(this.date_time)
+        id = this.quizDayId,
+        dateTime = kotlinx.datetime.Instant.fromEpochMilliseconds(this.dateTime)
             .toLocalDateTime(TimeZone.UTC),
-        registrationTimeBegin = kotlinx.datetime.Instant.fromEpochMilliseconds(this.registration_date_time)
+        registrationTimeBegin = kotlinx.datetime.Instant.fromEpochMilliseconds(this.registrationDateTime)
             .toLocalDateTime(TimeZone.UTC),
         city = this.city,
         status = Status.valueOf(this.status),
-        registrationOpen = this.registration_open
+        registrationOpen = this.registrationOpen
     )
 
 // DTO -> Domain mapping (for direct conversion without database)
@@ -101,12 +101,12 @@ fun QuizEventEntity.entityToDomain(): Quiz {
         id = this.quizWeek.id,
         title = this.quizWeek.title,
         quizDay = QuizDay(
-            id = this.quizDay.quiz_day_id,
+            id = this.quizDay.quizDayId,
             status = status,
-            registrationOpen = quizDay.registration_open,
-            dateTime = Instant.fromEpochMilliseconds(quizDay.date_time)
+            registrationOpen = quizDay.registrationOpen,
+            dateTime = Instant.fromEpochMilliseconds(quizDay.dateTime)
                 .toLocalDateTime(TimeZone.UTC),
-            registrationTimeBegin = Instant.fromEpochMilliseconds(quizDay.registration_date_time)
+            registrationTimeBegin = Instant.fromEpochMilliseconds(quizDay.registrationDateTime)
                 .toLocalDateTime(TimeZone.UTC),
             city = quizDay.city
             )

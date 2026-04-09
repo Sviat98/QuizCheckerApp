@@ -61,7 +61,7 @@ class QuizDetailsViewModel(
             reduceState { oldState ->
                 oldState.copy(isLoading = true)
             }
-
+            println("quizId = $quizId")
             quizRepository.getQuizEventById(quizId)
 
             reduceState { oldState ->
