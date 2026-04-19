@@ -30,7 +30,6 @@ import com.bashkevich.quizchecker.core.formatDate
 import com.bashkevich.quizchecker.core.formatTime
 import com.bashkevich.quizchecker.resources.*
 import org.jetbrains.compose.resources.stringResource
-//import com.bashkevich.quizchecker.resources.*
 
 @Composable
 fun AddQuizScreen(
@@ -50,6 +49,7 @@ fun AddQuizScreen(
     }, state = dialogState) {
         AddQuizContent(
             addQuizScreenState = state,
+            onBack = {navController.navigateUp()},
             onEvent = { viewModel.onEvent(it) }
         )
     }
@@ -61,6 +61,7 @@ fun AddQuizScreen(
 @Composable
 fun AddQuizContent(
     addQuizScreenState: AddQuizScreenState,
+    onBack: ()-> Unit,
     onEvent: (AddQuizScreenUiEvent) -> Unit
 ) {
     Column(
@@ -90,7 +91,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.CalendarMonth, contentDescription = "Select quiz date")
+                    Icon(IconGroup.Default.CalendarMonth, contentDescription = stringResource(Res.string.select_quiz_date_content_description))
                 }
             })
 
@@ -107,7 +108,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.Schedule, contentDescription = "Select quiz time")
+                    Icon(IconGroup.Default.Schedule, contentDescription = stringResource(Res.string.select_quiz_time_content_description))
                 }
             })
 
@@ -124,7 +125,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.CalendarMonth, contentDescription = "Select registration date")
+                    Icon(IconGroup.Default.CalendarMonth, contentDescription = stringResource(Res.string.select_registration_date_content_description))
                 }
             })
 
@@ -142,7 +143,7 @@ fun AddQuizContent(
                         )
                     )
                 }) {
-                    Icon(IconGroup.Default.Schedule, contentDescription = "Select registration time")
+                    Icon(IconGroup.Default.Schedule, contentDescription = stringResource(Res.string.select_registration_time_content_description))
                 }
             })
 
@@ -165,7 +166,7 @@ fun AddQuizContent(
                 placeholder = { Text(stringResource(Res.string.city_placeholder)) },
                 trailingIcon = {
                     Icon(
-                        IconGroup.Default.ArrowDropDown, "select city",
+                        IconGroup.Default.ArrowDropDown, stringResource(Res.string.select_city_content_description),
                         Modifier.clickable { expanded = !expanded })
                 }
             )
@@ -193,6 +194,7 @@ fun AddQuizContent(
 
         Button(onClick = {
             onEvent(AddQuizScreenUiEvent.AddQuiz)
+            onBack()
         }) {
             Text(stringResource(Res.string.add_quiz_button))
         }

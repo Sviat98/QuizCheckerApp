@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.bashkevich.quizchecker.Greeting
 import com.bashkevich.quizchecker.di.coreModule
+import com.bashkevich.quizchecker.di.platformModule
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.KoinMultiplatformApplication
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -28,7 +29,7 @@ import com.bashkevich.quizchecker.resources.*
 @Preview
 fun ClientApp() {
     KoinMultiplatformApplication(config = KoinConfiguration{
-        modules(coreModule)
+        modules(coreModule, platformModule)
     }){
         MaterialTheme {
             var showContent by remember { mutableStateOf(false) }

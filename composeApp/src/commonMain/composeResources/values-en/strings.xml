@@ -21,4 +21,16 @@
     <string name="cancel_button">Cancel</string>
     <string name="event_schedule_title">Event Schedule</string>
     <string name="no_items_text">There are no items</string>
+    <string name="status_not_started">Not Started</string>
+    <string name="status_registered">Registered</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_completed">Completed</string>
+    <string name="add_quiz_content_description">Add quiz</string>
+    <string name="select_quiz_date_content_description">Select quiz date</string>
+    <string name="select_quiz_time_content_description">Select quiz time</string>
+    <string name="select_registration_date_content_description">Select registration date</string>
+    <string name="select_registration_time_content_description">Select registration time</string>
+    <string name="select_city_content_description">Select city</string>
+    <string name="registration_started_at">Registration started at</string>
+    <string name="registration_starts_at">Registration starts at</string>
 </resources>

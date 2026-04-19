@@ -19,11 +19,13 @@ class QuizListViewModel(
         get() = super.action
 
     init {
+        println("VM INIT!!!")
         loadQuizListResult()
 
         viewModelScope.launch {
             quizRepository.observeQuizList().distinctUntilChanged()
                 .collect{ quizList ->
+                    println("quizList = $quizList")
                     reduceState { oldState->
                         oldState.copy(quizList = quizList)
                     }

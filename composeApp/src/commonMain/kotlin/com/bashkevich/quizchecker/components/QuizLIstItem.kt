@@ -14,7 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bashkevich.quizchecker.core.convertToLocalTimeFromUTC
+import com.bashkevich.quizchecker.core.toLocalizedString
 import com.bashkevich.quizchecker.model.quiz.domain.Quiz
+import org.jetbrains.compose.resources.stringResource
+import com.bashkevich.quizchecker.resources.*
 
 @Composable
 fun QuizWeekItem(
@@ -47,18 +50,20 @@ fun QuizWeekItem(
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = "Status: ${quiz.quizDay.status}"
-                //.convertToLocalTimeFromUTC()
-                ,
+                text = "${stringResource(Res.string.status_label)}: ${quiz.quizDay.status.toLocalizedString()}",
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Text(
-                text = if (quiz.quizDay.registrationOpen ) "Registration started at ${
-                    quiz.quizDay.registrationTimeBegin.convertToLocalTimeFromUTC()
-                }" else "Registration starts at ${
-                    quiz.quizDay.registrationTimeBegin.convertToLocalTimeFromUTC()
-                }",
+                text = if (quiz.quizDay.registrationOpen) {
+                    "${stringResource(Res.string.registration_started_at)} ${
+                        quiz.quizDay.registrationTimeBegin.convertToLocalTimeFromUTC()
+                    }"
+                } else {
+                    "${stringResource(Res.string.registration_starts_at)} ${
+                        quiz.quizDay.registrationTimeBegin.convertToLocalTimeFromUTC()
+                    }"
+                },
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground
             )

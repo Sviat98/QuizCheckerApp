@@ -21,4 +21,16 @@
     <string name="cancel_button">Отмена</string>
     <string name="event_schedule_title">Расписание событий</string>
     <string name="no_items_text">Нет элементов</string>
+    <string name="status_not_started">Не начат</string>
+    <string name="status_registered">Зарегистрирован</string>
+    <string name="status_in_progress">В процессе</string>
+    <string name="status_completed">Завершен</string>
+    <string name="add_quiz_content_description">Добавить викторину</string>
+    <string name="select_quiz_date_content_description">Выбрать дату викторины</string>
+    <string name="select_quiz_time_content_description">Выбрать время викторины</string>
+    <string name="select_registration_date_content_description">Выбрать дату регистрации</string>
+    <string name="select_registration_time_content_description">Выбрать время регистрации</string>
+    <string name="select_city_content_description">Выбрать город</string>
+    <string name="registration_started_at">Регистрация началась в</string>
+    <string name="registration_starts_at">Регистрация начинается в</string>
 </resources>

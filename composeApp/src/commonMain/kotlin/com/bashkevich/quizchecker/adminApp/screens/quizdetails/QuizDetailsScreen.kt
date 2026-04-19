@@ -11,7 +11,7 @@ import com.bashkevich.quizchecker.adminApp.LocalNavHostController
 import com.bashkevich.quizchecker.adminApp.SettingsRoute
 import com.bashkevich.quizchecker.components.icons.IconGroup
 import com.bashkevich.quizchecker.components.icons.default_icons.ArrowBack
-import com.bashkevich.quizchecker.core.convertFromEnum
+import com.bashkevich.quizchecker.core.toLocalizedString
 import com.bashkevich.quizchecker.core.convertToLocalTimeFromUTC
 import com.bashkevich.quizchecker.model.Status
 import com.bashkevich.quizchecker.model.quiz.domain.Quiz
@@ -106,7 +106,7 @@ private fun QuizDetailsInfo(
             style = MaterialTheme.typography.bodyLarge
         )
         Text(
-            text = "${stringResource(Res.string.status_label)}: ${quiz.quizDay.status.convertFromEnum()}",
+            text = "${stringResource(Res.string.status_label)}: ${quiz.quizDay.status.toLocalizedString()}",
             style = MaterialTheme.typography.bodyMedium
         )
 

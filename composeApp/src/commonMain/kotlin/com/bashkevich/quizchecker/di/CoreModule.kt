@@ -1,16 +1,14 @@
 package com.bashkevich.quizchecker.di
 
-import app.cash.sqldelight.ColumnAdapter
-import app.cash.sqldelight.EnumColumnAdapter
-import com.bashkevich.quizchecker.QuizCheckerDatabase
 import com.bashkevich.quizchecker.core.ktor.KtorHttpEngine
-import com.bashkevich.quizchecker.core.sqldelight.DriverFactory
 import com.bashkevich.quizchecker.core.storage.FlowSettingsFactory
 import com.bashkevich.quizchecker.core.storage.KeyValueStorage
+import com.bashkevich.quizchecker.core.room.QuizCheckerDatabase
+import com.bashkevich.quizchecker.core.room.createRoomDatabase
+import com.bashkevich.quizchecker.core.room.getDatabaseBuilder
 import com.bashkevich.quizchecker.settings.data.SettingsLocalDataSource
 import com.bashkevich.quizchecker.settings.repository.SettingsRepository
 import com.bashkevich.quizchecker.settings.repository.SettingsRepositoryImpl
-import com.example.Quiz_day
 import com.russhwolf.settings.ExperimentalSettingsApi
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -21,10 +19,6 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toInstant
-import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.json.Json
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -66,27 +60,14 @@ val ktorModule = module {
 }
 
 val databaseModule = module {
-    singleOf(::DriverFactory)
     single {
-        val localDateTimeAdapter = object : ColumnAdapter<LocalDateTime, Long> {
-            override fun decode(databaseValue: Long): LocalDateTime {
-                return kotlin.time.Instant.fromEpochMilliseconds(databaseValue).toLocalDateTime(TimeZone.UTC)
-            }
-
-            override fun encode(value: LocalDateTime): Long {
-                return value.toInstant(TimeZone.UTC).toEpochMilliseconds()
-            }
-
-        }
-
-        val databaseDriverFactory: DriverFactory = get()
-        QuizCheckerDatabase(
-            databaseDriverFactory.createDriver(), quiz_dayAdapter = Quiz_day.Adapter(
-                date_timeAdapter = localDateTimeAdapter,
-                registration_date_timeAdapter = localDateTimeAdapter,
-                statusAdapter = EnumColumnAdapter()
-            )
-        )
+        val configuration = get<com.bashkevich.quizchecker.PlatformConfiguration>()
+        val builder = getDatabaseBuilder(configuration)
+        createRoomDatabase(builder)
+    }
+    single {
+        val database: QuizCheckerDatabase = get()
+        database.quizDao()
     }
 }
 

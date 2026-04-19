@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinx.serialization)
-    alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.androidx.room)
 }
 
 kotlin {
@@ -27,7 +27,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.sqlDelight.android.driver)
+            implementation(libs.room.runtime.android)
             implementation(libs.slf4j.android)
             implementation(libs.multiplatform.settings.datastore)
             implementation(libs.androidx.datastore.preferences)
@@ -58,7 +58,8 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
 
-            implementation(libs.sqlDelight.coroutines.extensions)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
 
             implementation(libs.multiplatform.settings)
             implementation(libs.multiplatform.settings.coroutines)
@@ -70,19 +71,21 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.sqlDelight.sqlite.driver)
+            implementation(libs.room.runtime.jvm)
             implementation(libs.logback.classic)
             implementation(libs.multiplatform.settings.datastore)
         }
     }
 }
 
-sqldelight {
-    databases {
-        create("QuizCheckerDatabase") {
-            packageName.set("com.bashkevich.quizchecker")
-        }
-    }
+dependencies {
+    add("kspCommonMainMetadata", libs.room.compiler)
+    add("kspAndroid", libs.room.compiler)
+    add("kspJvm", libs.room.compiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 compose.resources {

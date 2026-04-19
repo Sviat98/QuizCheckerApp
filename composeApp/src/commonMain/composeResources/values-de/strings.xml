@@ -21,4 +21,16 @@
     <string name="cancel_button">Abbrechen</string>
     <string name="event_schedule_title">Veranstaltungsplan</string>
     <string name="no_items_text">Es gibt keine Elemente</string>
+    <string name="status_not_started">Nicht begonnen</string>
+    <string name="status_registered">Registriert</string>
+    <string name="status_in_progress">In Bearbeitung</string>
+    <string name="status_completed">Abgeschlossen</string>
+    <string name="add_quiz_content_description">Quiz hinzufügen</string>
+    <string name="select_quiz_date_content_description">Quiz-Datum auswählen</string>
+    <string name="select_quiz_time_content_description">Quiz-Zeit auswählen</string>
+    <string name="select_registration_date_content_description">Registrierungsdatum auswählen</string>
+    <string name="select_registration_time_content_description">Registrierungszeit auswählen</string>
+    <string name="select_city_content_description">Stadt auswählen</string>
+    <string name="registration_started_at">Registrierung begann um</string>
+    <string name="registration_starts_at">Registrierung beginnt um</string>
 </resources>

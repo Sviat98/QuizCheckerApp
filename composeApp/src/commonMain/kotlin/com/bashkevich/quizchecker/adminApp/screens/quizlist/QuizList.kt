@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.jetbrains.compose.resources.stringResource
+import com.bashkevich.quizchecker.resources.*
 import com.bashkevich.quizchecker.adminApp.AddQuizRoute
 import com.bashkevich.quizchecker.adminApp.LocalNavHostController
 import com.bashkevich.quizchecker.adminApp.QuizDetailsRoute
@@ -76,7 +78,7 @@ private fun QuizListContent(
                 onClick = onAddQuizClick,
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
-                Icon(imageVector = IconGroup.Default.Add, contentDescription = "Add quiz")
+                Icon(imageVector = IconGroup.Default.Add, contentDescription = stringResource(Res.string.add_quiz_content_description))
             }
         },
         modifier = Modifier.then(modifier)
@@ -89,7 +91,7 @@ private fun QuizListContent(
                 .background(color = MaterialTheme.colorScheme.background)
         ) {
             Text(
-                text = "Event Schedule",
+                text = stringResource(Res.string.event_schedule_title),
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onBackground,
             )
