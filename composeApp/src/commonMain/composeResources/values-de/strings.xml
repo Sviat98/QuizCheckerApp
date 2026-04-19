@@ -33,4 +33,10 @@
     <string name="select_city_content_description">Stadt auswählen</string>
     <string name="registration_started_at">Registrierung begann um</string>
     <string name="registration_starts_at">Registrierung beginnt um</string>
+    <string name="home_tab_title">Startseite</string>
+    <string name="blanks_tab_title">Blanks</string>
+    <string name="standings_tab_title">Tabelle</string>
+    <string name="home_tab_description">Startseite</string>
+    <string name="blanks_tab_description">Blanks</string>
+    <string name="standings_tab_description">Tabelle</string>
 </resources>

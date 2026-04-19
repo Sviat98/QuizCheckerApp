@@ -33,4 +33,10 @@
     <string name="select_city_content_description">Выбрать город</string>
     <string name="registration_started_at">Регистрация началась в</string>
     <string name="registration_starts_at">Регистрация начинается в</string>
+    <string name="home_tab_title">Главная</string>
+    <string name="blanks_tab_title">Бланки</string>
+    <string name="standings_tab_title">Таблица</string>
+    <string name="home_tab_description">Главная</string>
+    <string name="blanks_tab_description">Бланки</string>
+    <string name="standings_tab_description">Таблица</string>
 </resources>

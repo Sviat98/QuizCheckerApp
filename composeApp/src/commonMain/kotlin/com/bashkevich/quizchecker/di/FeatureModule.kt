@@ -3,6 +3,9 @@ package com.bashkevich.quizchecker.di
 import com.bashkevich.quizchecker.adminApp.AdminAppViewModel
 import com.bashkevich.quizchecker.adminApp.screens.addquiz.AddQuizViewModel
 import com.bashkevich.quizchecker.adminApp.screens.quizdetails.QuizDetailsViewModel
+import com.bashkevich.quizchecker.adminApp.screens.quizdetails.blanks.QuizDetailsBlanksViewModel
+import com.bashkevich.quizchecker.adminApp.screens.quizdetails.home.QuizDetailsHomeViewModel
+import com.bashkevich.quizchecker.adminApp.screens.quizdetails.standings.QuizDetailsStandingsViewModel
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 import com.bashkevich.quizchecker.adminApp.screens.quizlist.QuizListViewModel
@@ -16,6 +19,9 @@ val quizListModule = module {
 
 val quizDetailsModule = module {
     viewModelOf(::QuizDetailsViewModel)
+    viewModelOf(::QuizDetailsHomeViewModel)
+    viewModelOf(::QuizDetailsBlanksViewModel)
+    viewModelOf(::QuizDetailsStandingsViewModel)
 }
 
 val addQuizModule = module {
@@ -31,4 +37,3 @@ val featureModule = module {
 
     singleOf(::AdminAppViewModel)
 }
-
