@@ -33,4 +33,10 @@
     <string name="select_city_content_description">Select city</string>
     <string name="registration_started_at">Registration started at</string>
     <string name="registration_starts_at">Registration starts at</string>
+    <string name="home_tab_title">Home</string>
+    <string name="blanks_tab_title">Blanks</string>
+    <string name="standings_tab_title">Standings</string>
+    <string name="home_tab_description">Home</string>
+    <string name="blanks_tab_description">Blanks</string>
+    <string name="standings_tab_description">Standings</string>
 </resources>

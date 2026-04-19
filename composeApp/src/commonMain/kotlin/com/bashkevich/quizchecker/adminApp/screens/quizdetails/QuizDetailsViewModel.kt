@@ -4,18 +4,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.bashkevich.quizchecker.adminApp.QuizDetailsRoute
-import com.bashkevich.quizchecker.core.ktor.LoadResult
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import com.bashkevich.quizchecker.model.quiz.QuizRepository
 import com.bashkevich.quizchecker.mvi.BaseViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class QuizDetailsViewModel(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val quizRepository: QuizRepository
-) : BaseViewModel<QuizDetailsScreenState, QuizDetailsScreenUiEvent, QuizDetailsScreenAction>() {
+) : BaseViewModel<QuizDetailsScreenState, QuizDetailsScreenEvent, QuizDetailsScreenAction>() {
 
     private val _state = MutableStateFlow(QuizDetailsScreenState.Companion.initial())
     override val state: StateFlow<QuizDetailsScreenState>
@@ -24,7 +21,7 @@ class QuizDetailsViewModel(
     val actions: Flow<QuizDetailsScreenAction>
         get() = super.action
 
-    private val quizId = savedStateHandle.toRoute<QuizDetailsRoute>().quizId
+    val quizId: String = savedStateHandle.toRoute<QuizDetailsRoute>().quizId
 
     init {
         loadQuizDetails()
@@ -38,52 +35,21 @@ class QuizDetailsViewModel(
         }
     }
 
-    private fun startQuiz(quizId: String) {
-        viewModelScope.launch {
-            quizRepository.startQuiz(quizId)
-        }
-    }
-
-    private fun finishQuiz(quizId: String) {
-        viewModelScope.launch {
-            quizRepository.finishQuiz(quizId)
-        }
-    }
-
-    private fun revertQuiz(quizId: String) {
-        viewModelScope.launch {
-            quizRepository.revertQuiz(quizId)
-        }
-    }
-
     private fun loadQuizDetails() {
         viewModelScope.launch {
             reduceState { oldState ->
                 oldState.copy(isLoading = true)
             }
-            println("quizId = $quizId")
             quizRepository.getQuizEventById(quizId)
-
             reduceState { oldState ->
                 oldState.copy(isLoading = false)
             }
         }
     }
 
-    fun onEvent(uiEvent: QuizDetailsScreenUiEvent) {
+    fun onEvent(uiEvent: QuizDetailsScreenEvent) {
         when (uiEvent) {
-            is QuizDetailsScreenUiEvent.LoadQuizDetails -> {
-                loadQuizDetails()
-            }
-            is QuizDetailsScreenUiEvent.StartQuiz -> {
-                startQuiz(uiEvent.quizId)
-            }
-            is QuizDetailsScreenUiEvent.FinishQuiz -> {
-                finishQuiz(uiEvent.quizId)
-            }
-            is QuizDetailsScreenUiEvent.RevertQuiz -> {
-                revertQuiz(uiEvent.quizId)
-            }
+            is QuizDetailsScreenEvent.LoadQuizDetails -> loadQuizDetails()
         }
     }
 

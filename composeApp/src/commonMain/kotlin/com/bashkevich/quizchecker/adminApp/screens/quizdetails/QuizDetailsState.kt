@@ -7,14 +7,6 @@ import com.bashkevich.quizchecker.mvi.UiState
 import com.bashkevich.quizchecker.model.quiz.domain.Quiz
 
 @Immutable
-sealed class QuizDetailsScreenUiEvent : UiEvent {
-    data object LoadQuizDetails : QuizDetailsScreenUiEvent()
-    data class StartQuiz(val quizId: String) : QuizDetailsScreenUiEvent()
-    data class FinishQuiz(val quizId: String) : QuizDetailsScreenUiEvent()
-    data class RevertQuiz(val quizId: String) : QuizDetailsScreenUiEvent()
-}
-
-@Immutable
 data class QuizDetailsScreenState(
     val isLoading: Boolean,
     val quiz: Quiz = Quiz.DEFAULT,
@@ -27,12 +19,10 @@ data class QuizDetailsScreenState(
     }
 }
 
-@Immutable
-sealed class QuizDetailsDialogState {
-    object None : QuizDetailsDialogState()
+sealed class QuizDetailsScreenEvent : UiEvent {
+    data object LoadQuizDetails : QuizDetailsScreenEvent()
 }
 
-@Immutable
 sealed class QuizDetailsScreenAction : UiAction {
     object ShowErrorToast : QuizDetailsScreenAction()
 }
