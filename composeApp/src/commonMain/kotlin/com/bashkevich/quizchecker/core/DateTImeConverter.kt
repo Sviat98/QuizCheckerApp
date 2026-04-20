@@ -12,6 +12,10 @@ fun LocalDateTime.convertToLocalTimeFromUTC() = this.toInstant(
     TimeZone.UTC
 ).toLocalDateTime(TimeZone.currentSystemDefault()).formatDateTime()
 
+fun LocalDateTime.toLocalDateTimeFromUTC() = this.toInstant(
+    TimeZone.UTC
+).toLocalDateTime(TimeZone.currentSystemDefault())
+
 
 
 fun LocalDateTime.convertToUTCFromLocalTime() = this.toInstant(

@@ -119,7 +119,8 @@ fun QuizDetailsScreen(
                     1 -> QuizDetailsBlanksScreen(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(contentPadding)
+                            .padding(contentPadding),
+                        viewModel = blanksViewModel
                     )
                     2 -> QuizDetailsStandingsScreen(
                         modifier = Modifier

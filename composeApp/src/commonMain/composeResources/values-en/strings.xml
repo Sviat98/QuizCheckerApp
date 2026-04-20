@@ -31,12 +31,16 @@
     <string name="select_registration_date_content_description">Select registration date</string>
     <string name="select_registration_time_content_description">Select registration time</string>
     <string name="select_city_content_description">Select city</string>
-    <string name="registration_started_at">Registration started at</string>
-    <string name="registration_starts_at">Registration starts at</string>
+    <string name="registration_started">Registration is open</string>
+    <string name="registration_starts_at">Registration starts %1$s at %2$s</string>
     <string name="home_tab_title">Home</string>
     <string name="blanks_tab_title">Blanks</string>
     <string name="standings_tab_title">Standings</string>
     <string name="home_tab_description">Home</string>
     <string name="blanks_tab_description">Blanks</string>
     <string name="standings_tab_description">Standings</string>
+    <string name="blank_template_round_title">Round %1$d. %2$s</string>
+    <string name="blank_template_no_templates">No blank templates</string>
+    <string name="blank_template_answers_label">Answers: %1$d</string>
+    <string name="blank_template_loading_error">Failed to load blank templates</string>
 </resources>
