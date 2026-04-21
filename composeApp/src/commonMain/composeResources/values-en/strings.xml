@@ -43,4 +43,8 @@
     <string name="blank_template_no_templates">No blank templates</string>
     <string name="blank_template_answers_label">Answers: %1$d</string>
     <string name="blank_template_loading_error">Failed to load blank templates</string>
+    <string name="blank_template_answers_loading_error">Failed to load answers</string>
+    <string name="blank_template_points_label">%1$s pts</string>
+    <string name="blank_template_add_new_blank">Add New Blank</string>
+    <string name="blank_template_add_button">Add</string>
 </resources>

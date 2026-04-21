@@ -43,4 +43,8 @@
     <string name="blank_template_no_templates">Нет шаблонов бланков</string>
     <string name="blank_template_answers_label">Ответов: %1$d</string>
     <string name="blank_template_loading_error">Не удалось загрузить шаблоны бланков</string>
+    <string name="blank_template_answers_loading_error">Не удалось загрузить ответы</string>
+    <string name="blank_template_points_label">%1$s балл(ов)</string>
+    <string name="blank_template_add_new_blank">Добавить новый бланк</string>
+    <string name="blank_template_add_button">Добавить</string>
 </resources>

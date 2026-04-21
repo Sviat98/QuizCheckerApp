@@ -45,7 +45,41 @@ class QuizDetailsBlanksViewModel(
         }
     }
 
-    fun onEvent(uiEvent: QuizDetailsBlanksEvent) {}
+    fun onEvent(uiEvent: QuizDetailsBlanksEvent) {
+        when (uiEvent) {
+            is QuizDetailsBlanksEvent.LoadSlotAnswers -> loadSlotAnswers(uiEvent.slotId)
+            is QuizDetailsBlanksEvent.OnNewBlankTextChanged -> updateNewBlankText(uiEvent.text)
+        }
+    }
+
+    private fun loadSlotAnswers(slotId: Int) {
+        val currentState = _state.value
+        val currentSlotState = currentState.slotAnswersStates[slotId]
+
+        if (currentSlotState is SlotAnswersState.Success) return
+
+        viewModelScope.launch {
+            reduceState {
+                it.copy(slotAnswersStates = it.slotAnswersStates + (slotId to SlotAnswersState.Loading))
+            }
+            when (val result = blankTemplateRepository.getSlotAnswers(slotId)) {
+                is com.bashkevich.quizchecker.core.ktor.LoadResult.Success -> {
+                    reduceState {
+                        it.copy(slotAnswersStates = it.slotAnswersStates + (slotId to SlotAnswersState.Success(result.result)))
+                    }
+                }
+                is com.bashkevich.quizchecker.core.ktor.LoadResult.Error -> {
+                    reduceState {
+                        it.copy(slotAnswersStates = it.slotAnswersStates + (slotId to SlotAnswersState.Error(result.result.message)))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateNewBlankText(text: String) {
+        reduceState { it.copy(newBlankText = text) }
+    }
 
     private fun reduceState(reducer: (QuizDetailsBlanksState) -> QuizDetailsBlanksState) {
         _state.update(reducer)

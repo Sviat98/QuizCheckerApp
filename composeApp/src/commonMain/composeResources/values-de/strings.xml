@@ -43,4 +43,8 @@
     <string name="blank_template_no_templates">Keine Blankovorlagen</string>
     <string name="blank_template_answers_label">Antworten: %1$d</string>
     <string name="blank_template_loading_error">Blankvorlagen konnten nicht geladen werden</string>
+    <string name="blank_template_answers_loading_error">Antworten konnten nicht geladen werden</string>
+    <string name="blank_template_points_label">%1$s Punkte</string>
+    <string name="blank_template_add_new_blank">Neuen Blank hinzufügen</string>
+    <string name="blank_template_add_button">Hinzufügen</string>
 </resources>
