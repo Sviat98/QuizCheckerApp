@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.bashkevich.quizchecker.adminApp.QuizDetailsRoute
+import com.bashkevich.quizchecker.core.ktor.LoadResult
 import com.bashkevich.quizchecker.model.blank_template.BlankTemplateRepository
 import com.bashkevich.quizchecker.mvi.BaseViewModel
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +50,7 @@ class QuizDetailsBlanksViewModel(
         when (uiEvent) {
             is QuizDetailsBlanksEvent.LoadSlotAnswers -> loadSlotAnswers(uiEvent.slotId)
             is QuizDetailsBlanksEvent.OnNewBlankTextChanged -> updateNewBlankText(uiEvent.text)
+            is QuizDetailsBlanksEvent.AddBlankTemplate -> addBlankTemplate()
         }
     }
 
@@ -63,12 +65,12 @@ class QuizDetailsBlanksViewModel(
                 it.copy(slotAnswersStates = it.slotAnswersStates + (slotId to SlotAnswersState.Loading))
             }
             when (val result = blankTemplateRepository.getSlotAnswers(slotId)) {
-                is com.bashkevich.quizchecker.core.ktor.LoadResult.Success -> {
+                is LoadResult.Success -> {
                     reduceState {
                         it.copy(slotAnswersStates = it.slotAnswersStates + (slotId to SlotAnswersState.Success(result.result)))
                     }
                 }
-                is com.bashkevich.quizchecker.core.ktor.LoadResult.Error -> {
+                is LoadResult.Error -> {
                     reduceState {
                         it.copy(slotAnswersStates = it.slotAnswersStates + (slotId to SlotAnswersState.Error(result.result.message)))
                     }
@@ -79,6 +81,30 @@ class QuizDetailsBlanksViewModel(
 
     private fun updateNewBlankText(text: String) {
         reduceState { it.copy(newBlankText = text) }
+    }
+
+    private fun addBlankTemplate() {
+        val prompt = _state.value.newBlankText.trim()
+        if (prompt.isEmpty()) return
+
+        viewModelScope.launch {
+            reduceState { it.copy(isAddingBlank = true) }
+            when (val result = blankTemplateRepository.addBlankTemplate(quizId, prompt)) {
+                is LoadResult.Success -> {
+                    reduceState {
+                        it.copy(
+                            isAddingBlank = false,
+                            blankTemplates = it.blankTemplates + result.result,
+                            newBlankText = ""
+                        )
+                    }
+                }
+                is LoadResult.Error -> {
+                    reduceState { it.copy(isAddingBlank = false) }
+                    sendAction(QuizDetailsBlanksAction.ShowAddBlankError(result.result.message))
+                }
+            }
+        }
     }
 
     private fun reduceState(reducer: (QuizDetailsBlanksState) -> QuizDetailsBlanksState) {

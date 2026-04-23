@@ -20,7 +20,8 @@ data class QuizDetailsBlanksState(
     val blankTemplates: List<BlankTemplate> = emptyList(),
     val error: String? = null,
     val slotAnswersStates: Map<Int, SlotAnswersState> = emptyMap(),
-    val newBlankText: String = ""
+    val newBlankText: String = "",
+    val isAddingBlank: Boolean = false
 ) : UiState {
     companion object {
         fun initial() = QuizDetailsBlanksState()
@@ -30,6 +31,9 @@ data class QuizDetailsBlanksState(
 sealed class QuizDetailsBlanksEvent : UiEvent {
     data class LoadSlotAnswers(val slotId: Int) : QuizDetailsBlanksEvent()
     data class OnNewBlankTextChanged(val text: String) : QuizDetailsBlanksEvent()
+    data object AddBlankTemplate : QuizDetailsBlanksEvent()
 }
 
-sealed class QuizDetailsBlanksAction : UiAction
+sealed class QuizDetailsBlanksAction : UiAction {
+    data class ShowAddBlankError(val message: String) : QuizDetailsBlanksAction()
+}

@@ -1,4 +1,4 @@
-package com.bashkevich.quizchecker.model.blank_template
+package com.bashkevich.quizchecker.model.blank_template.remote
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

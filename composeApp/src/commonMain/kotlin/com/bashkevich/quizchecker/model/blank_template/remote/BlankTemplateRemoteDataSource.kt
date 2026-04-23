@@ -2,8 +2,6 @@ package com.bashkevich.quizchecker.model.blank_template.remote
 
 import com.bashkevich.quizchecker.core.ktor.LoadResult
 import com.bashkevich.quizchecker.core.ktor.runOperationCatching
-import com.bashkevich.quizchecker.model.blank_template.AnswerTemplateDto
-import com.bashkevich.quizchecker.model.blank_template.BlankTemplateDto
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -24,6 +22,19 @@ class BlankTemplateRemoteDataSource(
                         encodedPath = "/quiz-weeks/$quizId/blank-templates"
                     }
                 }.body<List<BlankTemplateDto>>()
+            }
+        }
+
+    suspend fun addBlankTemplate(quizId: String, prompt: String): LoadResult<BlankTemplateDto, Throwable> =
+        withContext(Dispatchers.IO) {
+            runOperationCatching {
+                httpClient.post {
+                    contentType(ContentType.Application.Json)
+                    url {
+                        encodedPath = "/quiz-weeks/$quizId/ai/blank-templates"
+                    }
+                    setBody(BlankTemplateRequestDto(prompt))
+                }.body<BlankTemplateDto>()
             }
         }
 

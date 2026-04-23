@@ -9,5 +9,7 @@ interface BlankTemplateRepository {
 
     suspend fun getBlankTemplates(quizId: String): LoadResult<List<BlankTemplate>, NetworkError>
 
+    suspend fun addBlankTemplate(quizId: String, prompt: String): LoadResult<BlankTemplate, NetworkError>
+
     suspend fun getSlotAnswers(slotId: Int): LoadResult<List<AnswerTemplate>, NetworkError>
 }

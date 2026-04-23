@@ -3,6 +3,7 @@ package com.bashkevich.quizchecker.adminApp.screens.quizdetails.blanks
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -26,6 +27,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -59,58 +62,86 @@ fun QuizDetailsBlanksScreen(
     viewModel: QuizDetailsBlanksViewModel
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    when {
-        state.isLoading -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
+    LaunchedEffect(viewModel.actions) {
+        viewModel.actions.collect { action ->
+            when (action) {
+                is QuizDetailsBlanksAction.ShowAddBlankError -> {
+                    snackbarHostState.showSnackbar(message = action.message)
+                }
             }
         }
-        state.error != null -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = stringResource(Res.string.blank_template_loading_error),
-                    color = MaterialTheme.colorScheme.error
+    }
+
+    Box(modifier = modifier) {
+        when {
+            state.isLoading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+            state.error != null -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(Res.string.blank_template_loading_error),
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            }
+            else -> {
+                BlankTemplatesPager(
+                    modifier = Modifier.fillMaxSize(),
+                    blankTemplates = state.blankTemplates,
+                    slotAnswersStates = state.slotAnswersStates,
+                    newBlankText = state.newBlankText,
+                    isAddingBlank = state.isAddingBlank,
+                    onLoadSlotAnswers = { slotId -> viewModel.onEvent(QuizDetailsBlanksEvent.LoadSlotAnswers(slotId)) },
+                    onNewBlankTextChanged = { text -> viewModel.onEvent(QuizDetailsBlanksEvent.OnNewBlankTextChanged(text)) },
+                    onAddBlankTemplate = { viewModel.onEvent(QuizDetailsBlanksEvent.AddBlankTemplate) }
                 )
             }
         }
-        else -> {
-            BlankTemplatesPager(
-                modifier = modifier,
-                blankTemplates = state.blankTemplates,
-                slotAnswersStates = state.slotAnswersStates,
-                newBlankText = state.newBlankText,
-                onLoadSlotAnswers = { slotId -> viewModel.onEvent(QuizDetailsBlanksEvent.LoadSlotAnswers(slotId)) },
-                onNewBlankTextChanged = { text -> viewModel.onEvent(QuizDetailsBlanksEvent.OnNewBlankTextChanged(text)) }
-            )
-        }
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp)
+        )
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun BlankTemplatesPager(
     modifier: Modifier = Modifier,
     blankTemplates: List<BlankTemplate>,
     slotAnswersStates: Map<Int, SlotAnswersState>,
     newBlankText: String,
+    isAddingBlank: Boolean,
     onLoadSlotAnswers: (Int) -> Unit,
-    onNewBlankTextChanged: (String) -> Unit
+    onNewBlankTextChanged: (String) -> Unit,
+    onAddBlankTemplate: () -> Unit
 ) {
-    val cycleSize = blankTemplates.size + 1
-    val startIndex = Int.MAX_VALUE / 2
-    // Snap startIndex to the start of a cycle so initial page is always the first template
-    val alignedStart = startIndex - (startIndex % cycleSize)
+    val pageCount = blankTemplates.size + 1
     val pagerState = rememberPagerState(
-        initialPage = alignedStart,
-        pageCount = { Int.MAX_VALUE }
+        initialPage = 0,
+        pageCount = { pageCount }
     )
-    val isOnAddPage = (pagerState.currentPage % cycleSize) == cycleSize - 1
+    val isOnAddPage = pagerState.currentPage == blankTemplates.size
+
+    // Reposition to newly added blank when list grows
+    LaunchedEffect(blankTemplates.size) {
+        if (blankTemplates.isNotEmpty()) {
+            pagerState.scrollToPage(blankTemplates.size - 1)
+        }
+    }
 
     HorizontalPager(
         state = pagerState,
@@ -118,9 +149,8 @@ private fun BlankTemplatesPager(
         contentPadding = PaddingValues(horizontal = 16.dp),
         pageSpacing = 16.dp
     ) { pageIndex ->
-        val indexInCycle = pageIndex % cycleSize
-        if (indexInCycle < blankTemplates.size) {
-            val template = blankTemplates[indexInCycle]
+        if (pageIndex < blankTemplates.size) {
+            val template = blankTemplates[pageIndex]
             BlankTemplatePage(
                 blankTemplate = template,
                 slotAnswersStates = slotAnswersStates,
@@ -132,6 +162,8 @@ private fun BlankTemplatesPager(
                 blankText = newBlankText,
                 onBlankTextChanged = onNewBlankTextChanged,
                 isOnAddPage = isOnAddPage,
+                isAddingBlank = isAddingBlank,
+                onAddClick = onAddBlankTemplate,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -143,7 +175,9 @@ private fun AddBlankTemplatePage(
     modifier: Modifier = Modifier,
     blankText: String,
     onBlankTextChanged: (String) -> Unit,
-    isOnAddPage: Boolean
+    isOnAddPage: Boolean,
+    isAddingBlank: Boolean,
+    onAddClick: () -> Unit
 ) {
     var isFormVisible by rememberSaveable { mutableStateOf(blankText.isNotEmpty()) }
 
@@ -191,10 +225,18 @@ private fun AddBlankTemplatePage(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Button(
-                    onClick = { /* TODO: send to server */ },
+                    onClick = onAddClick,
+                    enabled = blankText.isNotBlank() && !isAddingBlank,
                     modifier = Modifier.align(Alignment.End)
                 ) {
-                    Text(text = stringResource(Res.string.blank_template_add_button))
+                    if (isAddingBlank) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(20.dp),
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text(text = stringResource(Res.string.blank_template_add_button))
+                    }
                 }
             }
         }

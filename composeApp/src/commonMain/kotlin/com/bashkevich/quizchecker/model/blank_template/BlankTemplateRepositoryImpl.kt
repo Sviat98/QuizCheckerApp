@@ -19,6 +19,11 @@ class BlankTemplateRepositoryImpl(
             .mapSuccess { dtoList -> dtoList.map { it.toDomain() } }
             .mapError { it.toNetworkError() }
 
+    override suspend fun addBlankTemplate(quizId: String, prompt: String): LoadResult<BlankTemplate, NetworkError> =
+        blankTemplateRemoteDataSource.addBlankTemplate(quizId, prompt)
+            .mapSuccess { it.toDomain() }
+            .mapError { it.toNetworkError() }
+
     override suspend fun getSlotAnswers(slotId: Int): LoadResult<List<AnswerTemplate>, NetworkError> =
         blankTemplateRemoteDataSource.getSlotAnswers(slotId)
             .mapSuccess { dtoList -> dtoList.map { it.toDomain() } }
