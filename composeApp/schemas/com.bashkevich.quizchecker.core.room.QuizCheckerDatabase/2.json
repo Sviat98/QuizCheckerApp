@@ -1,0 +1,388 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "693d4ddc49b0bd9c8c4b25790e6e457a",
+    "entities": [
+      {
+        "tableName": "quiz_week",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "quiz_day",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`quiz_day_id` TEXT NOT NULL, `quiz_week_id` TEXT NOT NULL, `season_number` INTEGER NOT NULL, `date_time` INTEGER NOT NULL, `status` TEXT NOT NULL, `registration_open` INTEGER NOT NULL, `city` TEXT NOT NULL, `registration_date_time` INTEGER NOT NULL, PRIMARY KEY(`quiz_day_id`), FOREIGN KEY(`quiz_week_id`) REFERENCES `quiz_week`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "quizDayId",
+            "columnName": "quiz_day_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quizWeekId",
+            "columnName": "quiz_week_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seasonNumber",
+            "columnName": "season_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateTime",
+            "columnName": "date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "registrationOpen",
+            "columnName": "registration_open",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "registrationDateTime",
+            "columnName": "registration_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "quiz_day_id"
+          ]
+        },
+        "foreignKeys": [
+          {
+            "table": "quiz_week",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "quiz_week_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "performance_entity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `quiz_day_id` TEXT NOT NULL, `team_name` TEXT NOT NULL, `started` INTEGER NOT NULL, `points` REAL NOT NULL, `rank` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quiz_day_id",
+            "columnName": "quiz_day_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "team_name",
+            "columnName": "team_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "started",
+            "columnName": "started",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "points",
+            "columnName": "points",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "blank_template",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `quiz_week_id` TEXT NOT NULL, `round_number` INTEGER NOT NULL, `title` TEXT NOT NULL, `slots_amount` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`quiz_week_id`) REFERENCES `quiz_week`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quizWeekId",
+            "columnName": "quiz_week_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "roundNumber",
+            "columnName": "round_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slotsAmount",
+            "columnName": "slots_amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_blank_template_quiz_week_id",
+            "unique": false,
+            "columnNames": [
+              "quiz_week_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_blank_template_quiz_week_id` ON `${TABLE_NAME}` (`quiz_week_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "quiz_week",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "quiz_week_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "slot_template",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `blank_template_id` INTEGER NOT NULL, `slot_number` INTEGER NOT NULL, `check_instructions` TEXT, `answers_amount` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`blank_template_id`) REFERENCES `blank_template`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "blankTemplateId",
+            "columnName": "blank_template_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slotNumber",
+            "columnName": "slot_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "checkInstructions",
+            "columnName": "check_instructions",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "answersAmount",
+            "columnName": "answers_amount",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_slot_template_blank_template_id",
+            "unique": false,
+            "columnNames": [
+              "blank_template_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_slot_template_blank_template_id` ON `${TABLE_NAME}` (`blank_template_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "blank_template",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "blank_template_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "answer_template",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `answer` TEXT NOT NULL, `points` REAL NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "answer",
+            "columnName": "answer",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "points",
+            "columnName": "points",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "slot_template_answer_template_cross_ref",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`slot_template_id` INTEGER NOT NULL, `answer_template_id` INTEGER NOT NULL, PRIMARY KEY(`slot_template_id`, `answer_template_id`), FOREIGN KEY(`slot_template_id`) REFERENCES `slot_template`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`answer_template_id`) REFERENCES `answer_template`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "slotTemplateId",
+            "columnName": "slot_template_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "answerTemplateId",
+            "columnName": "answer_template_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "slot_template_id",
+            "answer_template_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_slot_template_answer_template_cross_ref_slot_template_id",
+            "unique": false,
+            "columnNames": [
+              "slot_template_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_slot_template_answer_template_cross_ref_slot_template_id` ON `${TABLE_NAME}` (`slot_template_id`)"
+          },
+          {
+            "name": "index_slot_template_answer_template_cross_ref_answer_template_id",
+            "unique": false,
+            "columnNames": [
+              "answer_template_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_slot_template_answer_template_cross_ref_answer_template_id` ON `${TABLE_NAME}` (`answer_template_id`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "slot_template",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "slot_template_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "answer_template",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "answer_template_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '693d4ddc49b0bd9c8c4b25790e6e457a')"
+    ]
+  }
+}

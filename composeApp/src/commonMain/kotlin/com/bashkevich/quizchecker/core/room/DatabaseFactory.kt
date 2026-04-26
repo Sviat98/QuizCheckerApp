@@ -11,6 +11,7 @@ fun createRoomDatabase(builder: RoomDatabase.Builder<QuizCheckerDatabase>): Quiz
     return builder
         .setDriver(BundledSQLiteDriver())
         .setQueryCoroutineContext(Dispatchers.IO)
+        .fallbackToDestructiveMigration(dropAllTables = true)
         .build()
 }
 

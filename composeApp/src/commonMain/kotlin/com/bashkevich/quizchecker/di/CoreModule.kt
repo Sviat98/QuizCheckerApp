@@ -70,6 +70,10 @@ val databaseModule = module {
         val database: QuizCheckerDatabase = get()
         database.quizDao()
     }
+    single {
+        val database: QuizCheckerDatabase = get()
+        database.blankTemplateDao()
+    }
 }
 
 @OptIn(ExperimentalSettingsApi::class)

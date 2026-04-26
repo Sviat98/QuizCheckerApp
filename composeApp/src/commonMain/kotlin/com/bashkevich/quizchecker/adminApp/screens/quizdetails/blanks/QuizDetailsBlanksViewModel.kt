@@ -30,18 +30,22 @@ class QuizDetailsBlanksViewModel(
 
     init {
         loadBlankTemplates()
+
+        viewModelScope.launch {
+            blankTemplateRepository.observeBlankTemplates(quizId).collect { templates ->
+                reduceState { it.copy(isLoading = false, blankTemplates = templates) }
+            }
+        }
     }
 
     private fun loadBlankTemplates() {
         viewModelScope.launch {
             reduceState { it.copy(isLoading = true, error = null) }
             when (val result = blankTemplateRepository.getBlankTemplates(quizId)) {
-                is com.bashkevich.quizchecker.core.ktor.LoadResult.Success -> {
-                    reduceState { it.copy(isLoading = false, blankTemplates = result.result) }
-                }
                 is com.bashkevich.quizchecker.core.ktor.LoadResult.Error -> {
-                    reduceState { it.copy(isLoading = false, error = result.result.message) }
+                    reduceState { it.copy(error = result.result.message) }
                 }
+                is com.bashkevich.quizchecker.core.ktor.LoadResult.Success -> { }
             }
         }
     }
@@ -94,7 +98,6 @@ class QuizDetailsBlanksViewModel(
                     reduceState {
                         it.copy(
                             isAddingBlank = false,
-                            blankTemplates = it.blankTemplates + result.result,
                             newBlankText = ""
                         )
                     }

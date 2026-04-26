@@ -2,7 +2,7 @@ package com.bashkevich.quizchecker.model.blank_template.domain
 
 data class BlankTemplate(
     val id: Int,
-    val quizWeekId: Int,
+    val quizWeekId: String,
     val roundNumber: Int,
     val title: String,
     val slotsAmount: Int,
@@ -14,7 +14,7 @@ data class SlotTemplate(
     val slotNumber: Int,
     val checkInstructions: String?,
     val answersAmount: Int,
-    val answer: AnswerTemplate?
+    val answers: List<AnswerTemplate>
 )
 
 data class AnswerTemplate(

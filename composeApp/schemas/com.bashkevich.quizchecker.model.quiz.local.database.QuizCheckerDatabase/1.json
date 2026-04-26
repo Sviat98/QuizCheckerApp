@@ -1,0 +1,188 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "ef26c7ef9b0334f4babba3587b822a4b",
+    "entities": [
+      {
+        "tableName": "quiz_week",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `title` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "title",
+            "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "quiz_day",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`quiz_week_id` TEXT NOT NULL, `quiz_day_id` TEXT NOT NULL, `season_number` INTEGER NOT NULL, `date_time` INTEGER NOT NULL, `status` TEXT NOT NULL, `registration_open` INTEGER NOT NULL, `city` TEXT NOT NULL, `registration_date_time` INTEGER NOT NULL, PRIMARY KEY(`quiz_week_id`, `quiz_day_id`), FOREIGN KEY(`quiz_week_id`) REFERENCES `quiz_week`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "quiz_week_id",
+            "columnName": "quiz_week_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quiz_day_id",
+            "columnName": "quiz_day_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "season_number",
+            "columnName": "season_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date_time",
+            "columnName": "date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status",
+            "columnName": "status",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "registration_open",
+            "columnName": "registration_open",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "registration_date_time",
+            "columnName": "registration_date_time",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "quiz_week_id",
+            "quiz_day_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_quiz_day_quiz_week_id",
+            "unique": false,
+            "columnNames": [
+              "quiz_week_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_quiz_day_quiz_week_id` ON `${TABLE_NAME}` (`quiz_week_id`)"
+          },
+          {
+            "name": "index_quiz_day_quiz_day_id",
+            "unique": false,
+            "columnNames": [
+              "quiz_day_id"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_quiz_day_quiz_day_id` ON `${TABLE_NAME}` (`quiz_day_id`)"
+          },
+          {
+            "name": "index_quiz_day_date_time",
+            "unique": false,
+            "columnNames": [
+              "date_time"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_quiz_day_date_time` ON `${TABLE_NAME}` (`date_time`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "quiz_week",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "quiz_week_id"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "performance_entity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `quiz_day_id` TEXT NOT NULL, `team_name` TEXT NOT NULL, `started` INTEGER NOT NULL, `points` REAL NOT NULL, `rank` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quiz_day_id",
+            "columnName": "quiz_day_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "team_name",
+            "columnName": "team_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "started",
+            "columnName": "started",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "points",
+            "columnName": "points",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rank",
+            "columnName": "rank",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ef26c7ef9b0334f4babba3587b822a4b')"
+    ]
+  }
+}

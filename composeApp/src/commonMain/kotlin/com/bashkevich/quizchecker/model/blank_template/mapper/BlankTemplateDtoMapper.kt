@@ -9,7 +9,7 @@ import com.bashkevich.quizchecker.model.blank_template.remote.SlotTemplateDto
 
 fun BlankTemplateDto.toDomain() = BlankTemplate(
     id = id,
-    quizWeekId = quizWeekId,
+    quizWeekId = quizWeekId.toString(),
     roundNumber = roundNumber,
     title = title,
     slotsAmount = slotsAmount,
@@ -21,7 +21,7 @@ fun SlotTemplateDto.toDomain() = SlotTemplate(
     slotNumber = slotNumber,
     checkInstructions = checkInstructions,
     answersAmount = answersAmount,
-    answer = answer?.toDomain()
+    answers = listOfNotNull(answer?.toDomain())
 )
 
 fun AnswerTemplateDto.toDomain() = AnswerTemplate(

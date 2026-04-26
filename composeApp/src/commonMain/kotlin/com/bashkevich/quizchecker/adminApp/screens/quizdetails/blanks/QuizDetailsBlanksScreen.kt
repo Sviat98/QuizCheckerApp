@@ -136,13 +136,6 @@ private fun BlankTemplatesPager(
     )
     val isOnAddPage = pagerState.currentPage == blankTemplates.size
 
-    // Reposition to newly added blank when list grows
-    LaunchedEffect(blankTemplates.size) {
-        if (blankTemplates.isNotEmpty()) {
-            pagerState.scrollToPage(blankTemplates.size - 1)
-        }
-    }
-
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.then(modifier),
@@ -325,7 +318,7 @@ private fun SlotItem(
                 text = if (hasMultipleAnswers) {
                     stringResource(Res.string.blank_template_answers_label, slot.answersAmount)
                 } else {
-                    slot.answer?.answer ?: ""
+                    slot.answers.firstOrNull()?.answer ?: ""
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
