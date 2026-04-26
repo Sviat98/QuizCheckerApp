@@ -25,12 +25,14 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -46,10 +48,15 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bashkevich.quizchecker.model.blank_template.domain.AnswerTemplate
 import com.bashkevich.quizchecker.model.blank_template.domain.BlankTemplate
 import com.bashkevich.quizchecker.model.blank_template.domain.SlotTemplate
+import com.bashkevich.quizchecker.components.icons.IconGroup
+import com.bashkevich.quizchecker.components.icons.default_icons.ArrowDropDown
+import com.bashkevich.quizchecker.components.icons.default_icons.ArrowDropUp
 import com.bashkevich.quizchecker.resources.Res
 import com.bashkevich.quizchecker.resources.blank_template_add_button
 import com.bashkevich.quizchecker.resources.blank_template_add_new_blank
 import com.bashkevich.quizchecker.resources.blank_template_answers_label
+import com.bashkevich.quizchecker.resources.blank_template_collapse_answers
+import com.bashkevich.quizchecker.resources.blank_template_expand_answers
 import com.bashkevich.quizchecker.resources.blank_template_answers_loading_error
 import com.bashkevich.quizchecker.resources.blank_template_loading_error
 import com.bashkevich.quizchecker.resources.blank_template_points_label
@@ -314,24 +321,44 @@ private fun SlotItem(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(end = 8.dp)
             )
-            Text(
-                text = if (hasMultipleAnswers) {
-                    stringResource(Res.string.blank_template_answers_label, slot.answersAmount)
-                } else {
-                    slot.answers.firstOrNull()?.answer ?: ""
-                },
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f)
-            )
             if (hasMultipleAnswers) {
                 Text(
-                    text = if (isExpanded) "▲" else "▼",
+                    text = stringResource(Res.string.blank_template_answers_label, slot.answersAmount),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.weight(1f)
                 )
+                Icon(
+                    imageVector = if (isExpanded) {
+                        IconGroup.Default.ArrowDropUp
+                    } else {
+                        IconGroup.Default.ArrowDropDown
+                    },
+                    contentDescription = if (isExpanded) {
+                        stringResource(Res.string.blank_template_collapse_answers)
+                    } else {
+                        stringResource(Res.string.blank_template_expand_answers)
+                    },
+                    modifier = Modifier.size(20.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            } else {
+                val answer = slot.answers.firstOrNull()
+                Text(
+                    text = answer?.answer ?: "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
+                if (answer != null) {
+                    Text(
+                        text = stringResource(Res.string.blank_template_points_label, formatPoints(answer.points)),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
             }
         }
 
@@ -391,7 +418,7 @@ private fun AnswerItem(
     modifier: Modifier = Modifier,
     answer: AnswerTemplate
 ) {
-    val pointsText = stringResource(Res.string.blank_template_points_label, answer.points)
+    val pointsText = stringResource(Res.string.blank_template_points_label, formatPoints(answer.points))
 
     Row(
         modifier = modifier
@@ -410,3 +437,67 @@ private fun AnswerItem(
         )
     }
 }
+
+@Preview(showBackground = true, widthDp = 360)
+@Composable
+private fun PreviewBlankTemplatePage() {
+    MaterialTheme {
+        BlankTemplatePage(
+            blankTemplate = BlankTemplate(
+                id = 1,
+                quizWeekId = "qw1",
+                roundNumber = 1,
+                title = "Round One",
+                slotsAmount = 4,
+                slots = listOf(
+                    SlotTemplate(
+                        id = 1,
+                        slotNumber = 1,
+                        checkInstructions = null,
+                        answersAmount = 1,
+                        answers = listOf(
+                            AnswerTemplate(id = 1, answer = "Paris", points = 1.0)
+                        )
+                    ),
+                    SlotTemplate(
+                        id = 2,
+                        slotNumber = 2,
+                        checkInstructions = null,
+                        answersAmount = 3,
+                        answers = emptyList()
+                    ),
+                    SlotTemplate(
+                        id = 3,
+                        slotNumber = 3,
+                        checkInstructions = null,
+                        answersAmount = 1,
+                        answers = listOf(
+                            AnswerTemplate(id = 3, answer = "The Great Wall of China", points = 2.0)
+                        )
+                    ),
+                    SlotTemplate(
+                        id = 4,
+                        slotNumber = 4,
+                        checkInstructions = null,
+                        answersAmount = 2,
+                        answers = emptyList()
+                    )
+                )
+            ),
+            slotAnswersStates = mapOf(
+                2 to SlotAnswersState.Success(
+                    listOf(
+                        AnswerTemplate(id = 2, answer = "Berlin", points = 1.0),
+                        AnswerTemplate(id = 5, answer = "Munich", points = 1.0),
+                        AnswerTemplate(id = 6, answer = "Hamburg", points = 1.0)
+                    )
+                )
+            ),
+            onLoadSlotAnswers = {},
+            modifier = Modifier.size(360.dp, 640.dp)
+        )
+    }
+}
+
+private fun formatPoints(points: Double): String =
+    if (points == points.toLong().toDouble()) points.toLong().toString() else points.toString()

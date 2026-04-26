@@ -48,6 +48,11 @@ interface BlankTemplateDao {
             insertSlotTemplate(slot)
             slotAnswers[slot.id]?.forEach { answer ->
                 insertAnswerTemplate(answer)
+            }
+        }
+        // Cross-refs AFTER all entity inserts to avoid REPLACE cascade deletions
+        slots.forEach { slot ->
+            slotAnswers[slot.id]?.forEach { answer ->
                 insertSlotTemplateAnswerTemplateCrossRef(
                     SlotTemplateAnswerTemplateCrossRef(
                         slotTemplateId = slot.id,
