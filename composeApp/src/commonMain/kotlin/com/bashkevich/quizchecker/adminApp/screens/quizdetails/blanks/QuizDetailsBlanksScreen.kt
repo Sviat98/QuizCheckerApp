@@ -4,8 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,9 +20,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -41,7 +39,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -275,6 +272,7 @@ private fun BlankTemplatePage(
                 key = { it.id }
             ) { slot ->
                 SlotItem(
+                    modifier = Modifier.fillMaxWidth(),
                     slot = slot,
                     answersState = slotAnswersStates[slot.id],
                     onLoadAnswers = { onLoadSlotAnswers(slot.id) }
@@ -294,40 +292,39 @@ private fun SlotItem(
     val hasMultipleAnswers = slot.answersAmount > 1
     var isExpanded by rememberSaveable { mutableStateOf(false) }
 
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.then(modifier)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(4.dp))
-                .background(MaterialTheme.colorScheme.surfaceVariant)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.outlineVariant,
-                    shape = RoundedCornerShape(4.dp)
-                )
-                .then(
-                    if (hasMultipleAnswers) Modifier.clickable {
-                        isExpanded = !isExpanded
-                        if (isExpanded && answersState == null) {
-                            onLoadAnswers()
-                        }
-                    } else Modifier
-                )
                 .padding(horizontal = 12.dp, vertical = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.Bottom
         ) {
             Text(
                 text = "${slot.slotNumber}.",
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.titleSmall,
                 modifier = Modifier.padding(end = 8.dp)
             )
             if (hasMultipleAnswers) {
-                Text(
-                    text = stringResource(Res.string.blank_template_answers_label, slot.answersAmount),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.weight(1f)
-                )
+                Column(modifier = Modifier.weight(1f)) {
+                    if (!isExpanded) {
+                        Text(
+                            text = stringResource(Res.string.blank_template_answers_label, slot.answersAmount),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        HorizontalDivider()
+                    }
+                    AnimatedVisibility(
+                        visible = isExpanded,
+                        enter = expandVertically(),
+                        exit = shrinkVertically()
+                    ) {
+                        Column {
+                            SlotAnswersContent(answersState = answersState)
+                            HorizontalDivider()
+                        }
+                    }
+                }
                 Icon(
                     imageVector = if (isExpanded) {
                         IconGroup.Default.ArrowDropUp
@@ -339,35 +336,40 @@ private fun SlotItem(
                     } else {
                         stringResource(Res.string.blank_template_expand_answers)
                     },
-                    modifier = Modifier.size(20.dp),
+                    modifier = Modifier
+                        .then(if (isExpanded) Modifier.align(Alignment.Top) else Modifier)
+                        .size(20.dp)
+                        .clickable {
+                            isExpanded = !isExpanded
+                            if (isExpanded && answersState == null) {
+                                onLoadAnswers()
+                            }
+                        },
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             } else {
                 val answer = slot.answers.firstOrNull()
-                Text(
-                    text = answer?.answer ?: "",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
-                )
-                if (answer != null) {
-                    Text(
-                        text = stringResource(Res.string.blank_template_points_label, formatPoints(answer.points)),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                Column(modifier = Modifier.weight(1f)) {
+                    Row {
+                        Text(
+                            text = answer?.answer ?: "",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f)
+                        )
+                        if (answer != null) {
+                            Text(
+                                text = stringResource(Res.string.blank_template_points_label, formatPoints(answer.points)),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                    HorizontalDivider()
                 }
             }
-        }
-
-        AnimatedVisibility(
-            visible = isExpanded && hasMultipleAnswers,
-            enter = expandVertically(),
-            exit = shrinkVertically()
-        ) {
-            SlotAnswersContent(answersState = answersState)
         }
     }
 }
