@@ -18,8 +18,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
-import androidx.compose.ui.window.DialogWindow
-import androidx.compose.ui.window.rememberDialogState
+//import androidx.compose.ui.window.DialogWindow
+//import androidx.compose.ui.window.rememberDialogState
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bashkevich.quizchecker.adminApp.LocalNavHostController
 import com.bashkevich.quizchecker.components.icons.IconGroup
@@ -39,20 +39,20 @@ fun AddQuizScreen(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val dialogState =
-        rememberDialogState(width = 500.dp, height = 600.dp)
+//    val dialogState =
+//        rememberDialogState(width = 500.dp, height = 600.dp)
 
     val navController = LocalNavHostController.current
 
-    DialogWindow(onCloseRequest = {
-        navController.navigateUp()
-    }, state = dialogState) {
-        AddQuizContent(
-            addQuizScreenState = state,
-            onBack = {navController.navigateUp()},
-            onEvent = { viewModel.onEvent(it) }
-        )
-    }
+//    DialogWindow(onCloseRequest = {
+//        navController.navigateUp()
+//    }, state = dialogState) {
+//        AddQuizContent(
+//            addQuizScreenState = state,
+//            onBack = {navController.navigateUp()},
+//            onEvent = { viewModel.onEvent(it) }
+//        )
+//    }
 
 }
 

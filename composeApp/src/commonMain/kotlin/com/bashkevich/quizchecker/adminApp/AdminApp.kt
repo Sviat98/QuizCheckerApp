@@ -20,6 +20,7 @@ import com.bashkevich.quizchecker.adminApp.screens.quizlist.QuizListViewModel
 import com.bashkevich.quizchecker.adminApp.screens.settings.SettingsScreen
 import com.bashkevich.quizchecker.adminApp.screens.settings.SettingsViewModel
 import com.bashkevich.quizchecker.di.coreModule
+import com.bashkevich.quizchecker.di.blankTemplateModule
 import com.bashkevich.quizchecker.di.featureModule
 import com.bashkevich.quizchecker.di.platformModule
 import com.bashkevich.quizchecker.di.quizModule
@@ -38,7 +39,7 @@ val LocalNavHostController = staticCompositionLocalOf<NavHostController> {
 @Preview
 fun AdminApp() {
     KoinMultiplatformApplication(config = KoinConfiguration {
-        modules(platformModule, coreModule, quizModule, featureModule)
+        modules(platformModule, coreModule, quizModule, blankTemplateModule, featureModule)
     }) {
         val adminAppViewModel = koinViewModel<AdminAppViewModel>()
         val appState by adminAppViewModel.state.collectAsStateWithLifecycle()

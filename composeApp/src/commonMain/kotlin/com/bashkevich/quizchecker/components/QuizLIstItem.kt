@@ -14,7 +14,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.bashkevich.quizchecker.core.convertToLocalTimeFromUTC
+import com.bashkevich.quizchecker.core.formatDate
+import com.bashkevich.quizchecker.core.formatTime
 import com.bashkevich.quizchecker.core.toLocalizedString
+import com.bashkevich.quizchecker.core.toLocalDateTimeFromUTC
 import com.bashkevich.quizchecker.model.quiz.domain.Quiz
 import org.jetbrains.compose.resources.stringResource
 import com.bashkevich.quizchecker.resources.*
@@ -56,13 +59,13 @@ fun QuizWeekItem(
             )
             Text(
                 text = if (quiz.quizDay.registrationOpen) {
-                    "${stringResource(Res.string.registration_started_at)} ${
-                        quiz.quizDay.registrationTimeBegin.convertToLocalTimeFromUTC()
-                    }"
+                    stringResource(Res.string.registration_started)
                 } else {
-                    "${stringResource(Res.string.registration_starts_at)} ${
-                        quiz.quizDay.registrationTimeBegin.convertToLocalTimeFromUTC()
-                    }"
+                    stringResource(
+                        Res.string.registration_starts_at,
+                        quiz.quizDay.registrationTimeBegin.toLocalDateTimeFromUTC().date.formatDate(),
+                        quiz.quizDay.registrationTimeBegin.toLocalDateTimeFromUTC().time.formatTime()
+                    )
                 },
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground

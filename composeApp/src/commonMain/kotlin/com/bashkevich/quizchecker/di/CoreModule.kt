@@ -35,6 +35,7 @@ val ktorModule = module {
             install(HttpTimeout) {
                 connectTimeoutMillis = 15000
                 requestTimeoutMillis = 30000
+                socketTimeoutMillis = 45000
             }
 
             install(ContentNegotiation) {
@@ -68,6 +69,10 @@ val databaseModule = module {
     single {
         val database: QuizCheckerDatabase = get()
         database.quizDao()
+    }
+    single {
+        val database: QuizCheckerDatabase = get()
+        database.blankTemplateDao()
     }
 }
 

@@ -31,12 +31,22 @@
     <string name="select_registration_date_content_description">Registrierungsdatum auswählen</string>
     <string name="select_registration_time_content_description">Registrierungszeit auswählen</string>
     <string name="select_city_content_description">Stadt auswählen</string>
-    <string name="registration_started_at">Registrierung begann um</string>
-    <string name="registration_starts_at">Registrierung beginnt um</string>
+    <string name="registration_started">Registrierung läuft</string>
+    <string name="registration_starts_at">Registrierung beginnt am %1$s um %2$s</string>
     <string name="home_tab_title">Startseite</string>
     <string name="blanks_tab_title">Blanks</string>
     <string name="standings_tab_title">Tabelle</string>
     <string name="home_tab_description">Startseite</string>
     <string name="blanks_tab_description">Blanks</string>
     <string name="standings_tab_description">Tabelle</string>
+    <string name="blank_template_round_title">Runde %1$d. %2$s</string>
+    <string name="blank_template_no_templates">Keine Blankovorlagen</string>
+    <string name="blank_template_answers_label">Antworten: %1$d</string>
+    <string name="blank_template_loading_error">Blankvorlagen konnten nicht geladen werden</string>
+    <string name="blank_template_answers_loading_error">Antworten konnten nicht geladen werden</string>
+    <string name="blank_template_points_label">Punkte: %1$s</string>
+    <string name="blank_template_expand_answers">Antworten anzeigen</string>
+    <string name="blank_template_collapse_answers">Antworten ausblenden</string>
+    <string name="blank_template_add_new_blank">Neuen Blank hinzufügen</string>
+    <string name="blank_template_add_button">Hinzufügen</string>
 </resources>

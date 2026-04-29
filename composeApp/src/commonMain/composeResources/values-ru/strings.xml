@@ -31,12 +31,22 @@
     <string name="select_registration_date_content_description">Выбрать дату регистрации</string>
     <string name="select_registration_time_content_description">Выбрать время регистрации</string>
     <string name="select_city_content_description">Выбрать город</string>
-    <string name="registration_started_at">Регистрация началась в</string>
-    <string name="registration_starts_at">Регистрация начинается в</string>
+    <string name="registration_started">Регистрация уже идет</string>
+    <string name="registration_starts_at">Регистрация начнется %1$s в %2$s</string>
     <string name="home_tab_title">Главная</string>
     <string name="blanks_tab_title">Бланки</string>
     <string name="standings_tab_title">Таблица</string>
     <string name="home_tab_description">Главная</string>
     <string name="blanks_tab_description">Бланки</string>
     <string name="standings_tab_description">Таблица</string>
+    <string name="blank_template_round_title">Тур %1$d. %2$s</string>
+    <string name="blank_template_no_templates">Нет шаблонов бланков</string>
+    <string name="blank_template_answers_label">Ответов: %1$d</string>
+    <string name="blank_template_loading_error">Не удалось загрузить шаблоны бланков</string>
+    <string name="blank_template_answers_loading_error">Не удалось загрузить ответы</string>
+    <string name="blank_template_points_label">Баллы: %1$s</string>
+    <string name="blank_template_expand_answers">Показать ответы</string>
+    <string name="blank_template_collapse_answers">Скрыть ответы</string>
+    <string name="blank_template_add_new_blank">Добавить новый бланк</string>
+    <string name="blank_template_add_button">Добавить</string>
 </resources>
