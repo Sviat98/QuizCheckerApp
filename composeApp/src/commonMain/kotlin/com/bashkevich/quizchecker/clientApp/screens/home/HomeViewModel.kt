@@ -22,6 +22,10 @@ class HomeViewModel(
 
     init {
         viewModelScope.launch {
+            quizRepository.getQuizListResult()
+        }
+
+        viewModelScope.launch {
             quizRepository.observeQuizList().distinctUntilChanged()
                 .collect { quizList ->
                     _state.update { it.copy(quizList = quizList) }

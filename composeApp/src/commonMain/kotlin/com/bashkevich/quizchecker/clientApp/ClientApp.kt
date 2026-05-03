@@ -1,7 +1,10 @@
 package com.bashkevich.quizchecker.clientApp
 
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -76,7 +79,11 @@ private fun ClientAppScreen(navController: NavHostController) {
 
     Scaffold(
         bottomBar = {
-            if (showBottomBar) {
+            AnimatedVisibility(
+                visible = showBottomBar,
+                enter = slideInVertically { it },
+                exit = slideOutVertically { it }
+            ) {
                 NavigationBar {
                     bottomNavItems.forEach { (route, label) ->
                         NavigationBarItem(
