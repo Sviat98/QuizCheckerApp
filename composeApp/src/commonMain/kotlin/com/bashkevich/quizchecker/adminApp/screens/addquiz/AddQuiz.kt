@@ -1,6 +1,11 @@
 package com.bashkevich.quizchecker.adminApp.screens.addquiz
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.*
@@ -18,8 +23,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
-//import androidx.compose.ui.window.DialogWindow
-//import androidx.compose.ui.window.rememberDialogState
+import com.bashkevich.quizchecker.adminApp.PlatformDialog
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.bashkevich.quizchecker.adminApp.LocalNavHostController
 import com.bashkevich.quizchecker.components.icons.IconGroup
@@ -39,20 +43,22 @@ fun AddQuizScreen(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-//    val dialogState =
-//        rememberDialogState(width = 500.dp, height = 600.dp)
-
     val navController = LocalNavHostController.current
 
-//    DialogWindow(onCloseRequest = {
-//        navController.navigateUp()
-//    }, state = dialogState) {
-//        AddQuizContent(
-//            addQuizScreenState = state,
-//            onBack = {navController.navigateUp()},
-//            onEvent = { viewModel.onEvent(it) }
-//        )
-//    }
+    LaunchedEffect(state.isAdded) {
+        if (state.isAdded) {
+            navController.navigateUp()
+        }
+    }
+
+    PlatformDialog(
+        onDismissRequest = { navController.navigateUp() }
+    ) {
+        AddQuizContent(
+            addQuizScreenState = state,
+            onEvent = { viewModel.onEvent(it) }
+        )
+    }
 
 }
 
@@ -61,7 +67,6 @@ fun AddQuizScreen(
 @Composable
 fun AddQuizContent(
     addQuizScreenState: AddQuizScreenState,
-    onBack: ()-> Unit,
     onEvent: (AddQuizScreenUiEvent) -> Unit
 ) {
     Column(
@@ -194,7 +199,6 @@ fun AddQuizContent(
 
         Button(onClick = {
             onEvent(AddQuizScreenUiEvent.AddQuiz)
-            onBack()
         }) {
             Text(stringResource(Res.string.add_quiz_button))
         }

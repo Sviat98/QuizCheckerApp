@@ -81,7 +81,7 @@ class QuizRepositoryImpl(
         eventDateTime: LocalDateTime,
         registrationDateTime: LocalDateTime,
         city: String
-    ) {
+    ): LoadResult<Quiz, NetworkError> {
 
         val quizDto = QuizEventDto(
             title = title,
@@ -91,7 +91,7 @@ class QuizRepositoryImpl(
                 city = city, registrationOpen = false, status = Status.NOT_STARTED
             ),
         )
-        quizRemoteDataSource.addQuiz(quizDto)
+        return quizRemoteDataSource.addQuiz(quizDto)
             .mapSuccess { singleDto ->
                 singleDto.toEntity()
             }
@@ -102,6 +102,8 @@ class QuizRepositoryImpl(
                     )
                 }
             }
+            .mapSuccess { entity -> entity.entityToDomain() }
+            .mapError { it.toNetworkError() }
     }
 
     override fun observeQuizList() =

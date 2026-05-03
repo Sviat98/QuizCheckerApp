@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import com.bashkevich.quizchecker.core.ktor.LoadResult
 import com.bashkevich.quizchecker.model.quiz.QuizRepository
 import com.bashkevich.quizchecker.mvi.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +38,14 @@ class AddQuizViewModel(
                 state.registrationTime!!
             ).convertToUTCFromLocalTime()
 
-            quizRepository.addQuiz(state.title, eventDateTime, registrationDateTime, state.city)
+            when (quizRepository.addQuiz(state.title, eventDateTime, registrationDateTime, state.city)) {
+                is LoadResult.Success -> {
+                    reduceState { it.copy(isAdded = true) }
+                }
+                is LoadResult.Error -> {
+                    sendAction(AddQuizScreenAction.ShowErrorToast)
+                }
+            }
         }
     }
 
