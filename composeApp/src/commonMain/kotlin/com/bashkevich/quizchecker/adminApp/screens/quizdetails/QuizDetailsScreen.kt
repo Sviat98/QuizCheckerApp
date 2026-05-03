@@ -19,7 +19,7 @@ import com.bashkevich.quizchecker.components.icons.IconGroup
 import com.bashkevich.quizchecker.components.icons.default_icons.ArrowBack
 import com.bashkevich.quizchecker.components.icons.default_icons.Blanks
 import com.bashkevich.quizchecker.components.icons.default_icons.Home
-import com.bashkevich.quizchecker.components.icons.default_icons.Standings
+import com.bashkevich.quizchecker.components.icons.default_icons.Trophy
 import org.jetbrains.compose.resources.stringResource
 import com.bashkevich.quizchecker.resources.*
 import org.koin.compose.viewmodel.koinViewModel
@@ -88,7 +88,7 @@ fun QuizDetailsScreen(
                     onClick = { selectedTab = 2 },
                     icon = {
                         Icon(
-                            imageVector = IconGroup.Default.Standings,
+                            imageVector = IconGroup.Default.Trophy,
                             contentDescription = stringResource(Res.string.standings_tab_description)
                         )
                     },
