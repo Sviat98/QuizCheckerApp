@@ -156,13 +156,13 @@ private fun ClientAppScreen(navController: NavHostController) {
             composable<QuizListRoute>(
                 enterTransition = {
                     slideIntoContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Left,
+                        AnimatedContentTransitionScope.SlideDirection.Up,
                         tween(300)
                     )
                 },
                 exitTransition = {
                     slideOutOfContainer(
-                        AnimatedContentTransitionScope.SlideDirection.Right,
+                        AnimatedContentTransitionScope.SlideDirection.Down,
                         tween(300)
                     )
                 },
