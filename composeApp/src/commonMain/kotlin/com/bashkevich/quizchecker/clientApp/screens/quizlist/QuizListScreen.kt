@@ -45,10 +45,11 @@ fun QuizListScreen(
 
     LaunchedEffect(Unit) {
         viewModel.actions.collect { action ->
-            when (action) {
-                is QuizListScreenAction.NavigateBack -> onBackClick()
-            }
         }
+    }
+
+    LaunchedEffect(state.isRefreshing){
+        println("isRefreshing: ${state.isRefreshing}")
     }
 
     Scaffold(
