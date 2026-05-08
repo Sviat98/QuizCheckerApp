@@ -35,7 +35,7 @@ class QuizRemoteDataSource(
                 url {
                     encodedPath = "/quizEvents/upcoming"
                 }
-            }.body<UpcomingQuizWeeksResponse>().quizEvents
+            }.body<UpcomingQuizEventsResponse>().quizEvents
             quizDtoList
         }
     }
@@ -66,12 +66,12 @@ class QuizRemoteDataSource(
         }
     }
 
-    suspend fun addQuiz(quizEventDto: QuizEventDto): LoadResult<QuizEventDto, Throwable> = withContext(
+    suspend fun addQuiz(addQuizEventBody: AddQuizEventBody): LoadResult<QuizEventDto, Throwable> = withContext(
         Dispatchers.IO) {
         runOperationCatching {
             val quizDto = httpClient.post {
                 contentType(ContentType.Application.Json)
-                setBody(quizEventDto)
+                setBody(addQuizEventBody)
                 url {
                     encodedPath = "/quizEvents"
                 }
