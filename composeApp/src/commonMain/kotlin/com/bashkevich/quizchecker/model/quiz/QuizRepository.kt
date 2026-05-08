@@ -13,7 +13,7 @@ interface QuizRepository {
 
     suspend fun getQuizEventById(id: String): LoadResult<Quiz, NetworkError>
 
-    suspend fun addQuiz(title: String, eventDateTime: LocalDateTime, registrationDateTime: LocalDateTime, city: String)
+    suspend fun addQuiz(title: String, eventDateTime: LocalDateTime, registrationDateTime: LocalDateTime, city: String): LoadResult<Quiz, NetworkError>
     fun observeQuizList(): Flow<List<Quiz>>
     //fun observeQuizSchedule(showRegisteredStatus: Boolean = false): Flow<List<Quiz>>
     fun setCurrentQuizId(quizId: String)

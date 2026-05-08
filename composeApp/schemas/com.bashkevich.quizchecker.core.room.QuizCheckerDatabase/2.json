@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "693d4ddc49b0bd9c8c4b25790e6e457a",
+    "identityHash": "e6cf38f8e030dac7b7f43586cac9aec7",
     "entities": [
       {
         "tableName": "quiz_week",
@@ -30,7 +30,7 @@
       },
       {
         "tableName": "quiz_day",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`quiz_day_id` TEXT NOT NULL, `quiz_week_id` TEXT NOT NULL, `season_number` INTEGER NOT NULL, `date_time` INTEGER NOT NULL, `status` TEXT NOT NULL, `registration_open` INTEGER NOT NULL, `city` TEXT NOT NULL, `registration_date_time` INTEGER NOT NULL, PRIMARY KEY(`quiz_day_id`), FOREIGN KEY(`quiz_week_id`) REFERENCES `quiz_week`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`quiz_day_id` TEXT NOT NULL, `quiz_week_id` TEXT NOT NULL, `season_number` INTEGER NOT NULL, `date_time` INTEGER NOT NULL, `status` TEXT NOT NULL, `registration_open` INTEGER NOT NULL, `city` TEXT NOT NULL, `registration_date_time` INTEGER NOT NULL, PRIMARY KEY(`quiz_day_id`), FOREIGN KEY(`quiz_week_id`) REFERENCES `quiz_week`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
         "fields": [
           {
             "fieldPath": "quizDayId",
@@ -90,7 +90,7 @@
         "foreignKeys": [
           {
             "table": "quiz_week",
-            "onDelete": "CASCADE",
+            "onDelete": "NO ACTION",
             "onUpdate": "NO ACTION",
             "columns": [
               "quiz_week_id"
@@ -382,7 +382,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '693d4ddc49b0bd9c8c4b25790e6e457a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e6cf38f8e030dac7b7f43586cac9aec7')"
     ]
   }
 }

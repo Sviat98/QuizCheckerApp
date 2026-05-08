@@ -1,5 +1,6 @@
 package com.bashkevich.quizchecker.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -25,11 +26,22 @@ import com.bashkevich.quizchecker.resources.*
 @Composable
 fun QuizWeekItem(
     quiz: Quiz,
-    onItemSelected: (Quiz) -> Unit
+    onItemSelected: (Quiz) -> Unit,
+    isSelected: Boolean = false
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .then(
+                if (isSelected) {
+                    Modifier.background(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+                } else {
+                    Modifier
+                }
+            )
             .border(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.onBackground,

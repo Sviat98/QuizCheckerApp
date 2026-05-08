@@ -11,7 +11,7 @@ class QuizListViewModel(
     private val quizRepository: QuizRepository
 ) : BaseViewModel<QuizListScreenState, QuizListScreenUiEvent, QuizListScreenAction>() {
 
-    private val _state = MutableStateFlow(QuizListScreenState.Companion.initial())
+    private val _state = MutableStateFlow(QuizListScreenState.initial())
     override val state: StateFlow<QuizListScreenState>
         get() = _state.asStateFlow()
 

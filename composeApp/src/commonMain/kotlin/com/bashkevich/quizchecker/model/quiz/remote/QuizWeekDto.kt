@@ -2,21 +2,12 @@ package com.bashkevich.quizchecker.model.quiz.remote
 
 import com.bashkevich.quizchecker.model.Status
 import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class QuizEventDto(
-    @SerialName(value = "id")
-    val id: String? = null,
-//    @SerialName(value = "season_number")
-//    val seasonNumber: Int = 0,
-    @SerialName(value = "title")
-    val title: String,
-    @SerialName(value = "quiz_day")
-    val quizDay: QuizDayDto
-)
-
+import kotlin.time.Clock
 @Serializable
 data class QuizWeekDto(
     @SerialName(value = "id")
@@ -45,12 +36,4 @@ data class QuizDayDto(
     val city: String,
     @SerialName(value = "registration_time_begin")
     val registrationTimeBegin: LocalDateTime,
-)
-
-@Serializable
-data class UpcomingQuizWeeksResponse(
-    @SerialName(value = "days_before_registration")
-    val daysBeforeRegistration: Int,
-    @SerialName(value = "quiz_events")
-    val quizEvents: List<QuizEventDto>
 )

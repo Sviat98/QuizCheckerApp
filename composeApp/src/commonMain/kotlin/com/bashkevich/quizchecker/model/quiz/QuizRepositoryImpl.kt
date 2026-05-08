@@ -16,7 +16,7 @@ import com.bashkevich.quizchecker.model.quiz.local.QuizLocalDataSource
 import com.bashkevich.quizchecker.model.quiz.mapper.entityToDomain
 import com.bashkevich.quizchecker.model.quiz.mapper.toEntity
 import com.bashkevich.quizchecker.model.quiz.mapper.toDomain
-import com.bashkevich.quizchecker.model.quiz.remote.QuizDayDto
+import com.bashkevich.quizchecker.model.quiz.remote.AddQuizEventBody
 import com.bashkevich.quizchecker.model.quiz.remote.QuizEventDto
 import com.bashkevich.quizchecker.model.quiz.remote.QuizRemoteDataSource
 
@@ -81,17 +81,18 @@ class QuizRepositoryImpl(
         eventDateTime: LocalDateTime,
         registrationDateTime: LocalDateTime,
         city: String
-    ) {
+    ): LoadResult<Quiz, NetworkError> {
 
-        val quizDto = QuizEventDto(
-            title = title,
-            quizDay = QuizDayDto(
-                id = "", seasonNumber = 7, dateTime = eventDateTime,
-                registrationTimeBegin = registrationDateTime,
-                city = city, registrationOpen = false, status = Status.NOT_STARTED
-            ),
+        val addQuizEventBody = AddQuizEventBody(
+            seasonNumber = 7,
+            quizWeekTitle = title,
+            dateTime = eventDateTime,
+            status = Status.NOT_STARTED,
+            registrationOpen = false,
+            city = city,
+            registrationTimeBegin = registrationDateTime,
         )
-        quizRemoteDataSource.addQuiz(quizDto)
+        return quizRemoteDataSource.addQuiz(addQuizEventBody)
             .mapSuccess { singleDto ->
                 singleDto.toEntity()
             }
@@ -102,6 +103,8 @@ class QuizRepositoryImpl(
                     )
                 }
             }
+            .mapSuccess { entity -> entity.entityToDomain() }
+            .mapError { it.toNetworkError() }
     }
 
     override fun observeQuizList() =

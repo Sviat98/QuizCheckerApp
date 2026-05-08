@@ -37,9 +37,13 @@ interface QuizDao {
         deleteAllQuizDays()
         deleteAllQuizWeeks()
 
-        // Insert new data
+        // Insert all unique quiz_weeks first to avoid CASCADE from REPLACE
+        quizList.map { it.quizWeek }
+            .distinctBy { it.id }
+            .forEach { insertQuizWeek(it) }
+
+        // Then insert all quiz_days
         quizList.forEach { quizEvent ->
-            insertQuizWeek(quizEvent.quizWeek)
             insertQuizDay(quizEvent.quizDay)
         }
     }

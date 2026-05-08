@@ -13,7 +13,7 @@ import androidx.room.PrimaryKey
             entity = QuizWeekEntity::class,
             parentColumns = ["id"],
             childColumns = ["quiz_week_id"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.NO_ACTION
         )
     ]
 )

@@ -33,7 +33,8 @@ data class AddQuizScreenState(
     val city: String,
     val registrationDate: LocalDate?,
     val registrationTime: LocalTime?,
-    val addQuizDialogState: AddQuizDialogState
+    val addQuizDialogState: AddQuizDialogState,
+    val isAdded: Boolean = false
 ) : UiState {
     companion object {
         fun initial() = AddQuizScreenState(
