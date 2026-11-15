@@ -13,9 +13,9 @@ plugins {
 
 kotlin {
 
-    androidLibrary {
+    android {
         minSdk = libs.versions.android.minSdk.get().toInt()
-        compileSdk = libs.versions.android.targetSdk.get().toInt()
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
         namespace = "com.bashkevich.quizchecker.composeApp"
         experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
     }
@@ -92,16 +92,4 @@ compose.resources {
     publicResClass = false
     packageOfResClass = "com.bashkevich.quizchecker.resources"
     generateResClass = auto
-}
-
-compose.desktop {
-    application {
-        mainClass = "com.bashkevich.quizchecker.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.bashkevich.quizchecker"
-            packageVersion = "1.0.0"
-        }
-    }
 }
