@@ -13,13 +13,13 @@ val IconGroup.Default.Trophy: ImageVector
             return _Trophy!!
         }
         _Trophy = ImageVector.Builder(
-            name = "Trophy",
+            name = "Default.Trophy",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveTo(280f, 840f)
                 verticalLineToRelative(-80f)
                 horizontalLineToRelative(160f)

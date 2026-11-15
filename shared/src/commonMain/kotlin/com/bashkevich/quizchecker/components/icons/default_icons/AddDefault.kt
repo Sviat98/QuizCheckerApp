@@ -1,25 +1,25 @@
 package com.bashkevich.quizchecker.components.icons.default_icons
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 import com.bashkevich.quizchecker.components.icons.IconGroup
 
 val IconGroup.Default.Add: ImageVector
     get() {
-        if (_AddDefault != null) {
-            return _AddDefault!!
+        if (_Add != null) {
+            return _Add!!
         }
-        _AddDefault = ImageVector.Builder(
-            name = "AddDefault",
+        _Add = ImageVector.Builder(
+            name = "Default.Add",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveTo(440f, 520f)
                 lineTo(200f, 520f)
                 verticalLineToRelative(-80f)
@@ -37,8 +37,8 @@ val IconGroup.Default.Add: ImageVector
             }
         }.build()
 
-        return _AddDefault!!
+        return _Add!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _AddDefault: ImageVector? = null
+private var _Add: ImageVector? = null

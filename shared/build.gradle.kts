@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.valkyrie)
 }
 
 kotlin {
@@ -92,4 +93,85 @@ compose.resources {
     publicResClass = false
     packageOfResClass = "com.bashkevich.quizchecker.resources"
     generateResClass = auto
+}
+
+valkyrie {
+    packageName = "com.bashkevich.quizchecker.components.icons"
+    iconPack {
+        name = "IconGroup"
+        targetSourceSet = "commonMain"
+        nested {
+            name = "Default"
+            sourceFolder = "default_icons"
+        }
+        nested {
+            name = "Filled"
+            sourceFolder = "filled_icons"
+        }
+    }
+}
+
+// Иконки версионируются как .kt в src/ (см. AGENTS.md): generate → copy → clean build-каталог.
+// Копирование адаптирует вывод Valkyrie под историческую раскладку проекта:
+// default/Add.kt (package ...icons.default) → default_icons/AddDefault.kt (package ...icons.default_icons)
+val copyValkyrieIcons by tasks.registering(Copy::class) {
+    dependsOn(tasks.named("generateValkyrieImageVector"))
+    val genIcons = layout.buildDirectory.dir("generated/sources/valkyrie/commonMain/kotlin/com/bashkevich/quizchecker/components/icons")
+    val srcIcons = layout.projectDirectory.dir("src/commonMain/kotlin/com/bashkevich/quizchecker/components/icons")
+    destinationDir = srcIcons.asFile
+
+    from(genIcons) { include("IconGroup.kt") }
+    from(genIcons.map { it.dir("default") }) {
+        include("*.kt")
+        into("default_icons")
+        rename { it.removeSuffix(".kt") + "Default.kt" }
+        filter { line: String ->
+            if (line == "package com.bashkevich.quizchecker.components.icons.default") {
+                "package com.bashkevich.quizchecker.components.icons.default_icons"
+            } else {
+                line
+            }
+        }
+    }
+    from(genIcons.map { it.dir("filled") }) {
+        include("*.kt")
+        into("filled_icons")
+        rename { it.removeSuffix(".kt") + "Filled.kt" }
+        filter { line: String ->
+            if (line == "package com.bashkevich.quizchecker.components.icons.filled") {
+                "package com.bashkevich.quizchecker.components.icons.filled_icons"
+            } else {
+                line
+            }
+        }
+    }
+}
+
+tasks.register<Delete>("cleanValkyrieGenerated") {
+    delete(layout.buildDirectory.dir("generated/sources/valkyrie"))
+}
+
+tasks.register("updateValkyrieIcons") {
+    group = "valkyrie"
+    description = "Regenerate icon .kt files from valkyrieResources SVGs into src/"
+    dependsOn(copyValkyrieIcons)
+    finalizedBy("cleanValkyrieGenerated")
+}
+
+// Гейт генерации: Valkyrie регистрирует build/generated/sources/valkyrie как srcDir (source of truth
+// для компиляции), что конфликтует с версионируемыми .kt-копиями в src/ (redeclaration IconGroup).
+// Поэтому генерация выполняется только при явном запросе обновления иконок; обычные сборки её скипают,
+// каталог не создаётся, и компилируются только .kt из src/.
+tasks.matching { it.name.startsWith("generateValkyrieImageVector") }.configureEach {
+    val requested = gradle.startParameter.taskNames.any { request ->
+        val taskName = request.substringAfterLast(':')
+        taskName == "updateValkyrieIcons" || taskName == "copyValkyrieIcons" || taskName.startsWith("generateValkyrieImageVector")
+    }
+    onlyIf { requested }
+}
+
+// KSP-таски потребляют srcDirs (включая зарегистрированный Valkyrie каталог) без зависимости
+// на генерацию — Gradle валидация требует явной зависимости
+tasks.matching { it.name.startsWith("ksp") }.configureEach {
+    dependsOn(tasks.matching { it.name.startsWith("generateValkyrieImageVector") })
 }

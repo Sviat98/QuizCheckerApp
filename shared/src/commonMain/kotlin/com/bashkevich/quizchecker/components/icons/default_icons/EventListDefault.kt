@@ -13,13 +13,13 @@ val IconGroup.Default.EventList: ImageVector
             return _EventList!!
         }
         _EventList = ImageVector.Builder(
-            name = "EventList",
+            name = "Default.EventList",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveTo(640f, 840f)
                 quadToRelative(-33f, 0f, -56.5f, -23.5f)
                 reflectiveQuadTo(560f, 760f)

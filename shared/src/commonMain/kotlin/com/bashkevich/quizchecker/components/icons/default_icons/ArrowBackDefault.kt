@@ -9,17 +9,17 @@ import com.bashkevich.quizchecker.components.icons.IconGroup
 
 val IconGroup.Default.ArrowBack: ImageVector
     get() {
-        if (_ArrowBackDefault != null) {
-            return _ArrowBackDefault!!
+        if (_ArrowBack != null) {
+            return _ArrowBack!!
         }
-        _ArrowBackDefault = ImageVector.Builder(
-            name = "ArrowBackDefault",
+        _ArrowBack = ImageVector.Builder(
+            name = "Default.ArrowBack",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveToRelative(313f, 520f)
                 lineToRelative(224f, 224f)
                 lineToRelative(-57f, 56f)
@@ -34,8 +34,8 @@ val IconGroup.Default.ArrowBack: ImageVector
             }
         }.build()
 
-        return _ArrowBackDefault!!
+        return _ArrowBack!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _ArrowBackDefault: ImageVector? = null
+private var _ArrowBack: ImageVector? = null

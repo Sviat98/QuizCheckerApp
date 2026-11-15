@@ -13,13 +13,13 @@ val IconGroup.Default.Schedule: ImageVector
             return _Schedule!!
         }
         _Schedule = ImageVector.Builder(
-            name = "Schedule",
+            name = "Default.Schedule",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveToRelative(612f, 668f)
                 lineToRelative(56f, -56f)
                 lineToRelative(-148f, -148f)

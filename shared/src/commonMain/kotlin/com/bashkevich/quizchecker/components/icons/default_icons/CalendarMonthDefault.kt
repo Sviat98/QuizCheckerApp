@@ -13,13 +13,13 @@ val IconGroup.Default.CalendarMonth: ImageVector
             return _CalendarMonth!!
         }
         _CalendarMonth = ImageVector.Builder(
-            name = "CalendarMonth",
+            name = "Default.CalendarMonth",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveTo(200f, 880f)
                 quadToRelative(-33f, 0f, -56.5f, -23.5f)
                 reflectiveQuadTo(120f, 800f)

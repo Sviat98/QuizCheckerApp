@@ -13,13 +13,13 @@ val IconGroup.Default.Settings: ImageVector
             return _Settings!!
         }
         _Settings = ImageVector.Builder(
-            name = "Settings",
+            name = "Default.Settings",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveToRelative(370f, 880f)
                 lineToRelative(-16f, -128f)
                 quadToRelative(-13f, -5f, -24.5f, -12f)

@@ -13,13 +13,13 @@ val IconGroup.Default.ArrowDropUp: ImageVector
             return _ArrowDropUp!!
         }
         _ArrowDropUp = ImageVector.Builder(
-            name = "ArrowDropUp",
+            name = "Default.ArrowDropUp",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
-            path(fill = SolidColor(Color(0xFF1F1F1F))) {
+            path(fill = SolidColor(Color.Black)) {
                 moveToRelative(280f, 560f)
                 lineToRelative(200f, -200f)
                 lineToRelative(200f, 200f)
